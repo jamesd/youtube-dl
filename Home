@@ -105,7 +105,7 @@
 		date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
 		var cookieoptions = { path: '/', expires: date };
 		
-		window._shard = 'fe01 (ID 1)';
+		window._shard = 'bfg02-gunicorn (ID 7)';
 		
 		$(document).ready(function(){
 			$('#toggle-repo-content').click(function(){
@@ -177,7 +177,7 @@
 		
 			
 				<li class="ui-tabs-nav-issues">
-					<a href="/rg3/youtube-dl/issues?status=new&amp;status=open"><span>Issues (12) &raquo;</span></a>
+					<a href="/rg3/youtube-dl/issues?status=new&amp;status=open"><span>Issues (17) &raquo;</span></a>
 					<ul>
 						<li><a href="/rg3/youtube-dl/issues?status=new">New issues</a></li>
 						<li><a href="/rg3/youtube-dl/issues?status=new&amp;status=open">Open issues</a></li>
@@ -196,11 +196,11 @@
 		
 		
 		<li class="tabs-right tabs-far-right">
-			<a href="/rg3/youtube-dl/descendants"><span>Forks/Queues (12)</span></a>
+			<a href="/rg3/youtube-dl/descendants"><span>Forks/Queues (11)</span></a>
 		</li>
 		
 		<li class="tabs-right">
-			<a href="/rg3/youtube-dl/zealots"><span>Followers (74)</span></a>
+			<a href="/rg3/youtube-dl/zealots"><span>Followers (78)</span></a>
 		</li>
 	</ul>
 </div>
@@ -235,9 +235,9 @@
 					<ul>
 						
 						
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/cfa6e63da22f.zip" class="zip">zip</a></li>
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/cfa6e63da22f.gz" class="compressed">gz</a></li>
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/cfa6e63da22f.bz2" class="compressed">bz2</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/3c59d266a04b.zip" class="zip">zip</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/3c59d266a04b.gz" class="compressed">gz</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/3c59d266a04b.bz2" class="compressed">bz2</a></li>
 						
 						
 					</ul>
@@ -253,7 +253,7 @@
 					
 					<ul>
 					
-						<li><a href="/rg3/youtube-dl/src/cfa6e63da22f">default</a></li>
+						<li><a href="/rg3/youtube-dl/src/3c59d266a04b">default</a></li>
 					
 					</ul>
 					
@@ -263,9 +263,11 @@
 					
 					<ul>
 					
-						<li><a href="/rg3/youtube-dl/src/cfa6e63da22f">tip</a></li>
+						<li><a href="/rg3/youtube-dl/src/3c59d266a04b">tip</a></li>
 					
-						<li><a href="/rg3/youtube-dl/src/a44566779488">2010.07.14</a></li>
+						<li><a href="/rg3/youtube-dl/src/de50210f6416">2010.07.22</a></li>
+					
+						<li><a href="/rg3/youtube-dl/src/ad0c03e54265">2010.07.14</a></li>
 					
 						<li><a href="/rg3/youtube-dl/src/ebc3c1a8ea94">2010.06.06</a></li>
 					
@@ -292,8 +294,6 @@
 						<li><a href="/rg3/youtube-dl/src/df8b882d8b39">2009.08.08</a></li>
 					
 						<li><a href="/rg3/youtube-dl/src/2793d3270ff9">2009.06.29</a></li>
-					
-						<li><a href="/rg3/youtube-dl/src/cfc3202eb7b6">2009.05.30</a></li>
 					
 						<li><a href="/rg3/youtube-dl/src/4bc5ac772e8a">2009.05.25</a></li>
 					
@@ -348,9 +348,9 @@
 					<ul>
 						
 						
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/cfa6e63da22f.zip" class="zip">zip</a></li>
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/cfa6e63da22f.gz" class="compressed">gz</a></li>
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/cfa6e63da22f.bz2" class="compressed">bz2</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/3c59d266a04b.zip" class="zip">zip</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/3c59d266a04b.gz" class="compressed">gz</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/3c59d266a04b.bz2" class="compressed">bz2</a></li>
 						
 						
 					</ul>
@@ -371,7 +371,7 @@
 		
 		<p class="repo-desc-description">youtube-dl is a small command-line program for downloading videos from <a href="http://YouTube.com" rel="nofollow">YouTube.com</a>.</p>
 		
-		<div id="repo-desc-cloneinfo">Clone this repository (size: 287.0 KB): <a href="http://bitbucket.org/rg3/youtube-dl" onclick="$('#clone-url-ssh').hide();$('#clone-url-https').toggle();return(false);"><small>HTTPS</small></a> / <a href="ssh://hg@bitbucket.org/rg3/youtube-dl" onclick="$('#clone-url-https').hide();$('#clone-url-ssh').toggle();return(false);"><small>SSH</small></a><br/>
+		<div id="repo-desc-cloneinfo">Clone this repository (size: 296.3 KB): <a href="http://bitbucket.org/rg3/youtube-dl" onclick="$('#clone-url-ssh').hide();$('#clone-url-https').toggle();return(false);"><small>HTTPS</small></a> / <a href="ssh://hg@bitbucket.org/rg3/youtube-dl" onclick="$('#clone-url-https').hide();$('#clone-url-ssh').toggle();return(false);"><small>SSH</small></a><br/>
 		<pre id="clone-url-https">$ hg clone <a href="http://bitbucket.org/rg3/youtube-dl">http://bitbucket.org/rg3/youtube-dl</a></pre>
 		
 		<pre id="clone-url-ssh" style="display:none;">$ hg clone <a href="ssh://hg@bitbucket.org/rg3/youtube-dl">ssh://hg@bitbucket.org/rg3/youtube-dl</a></pre></div>
@@ -413,7 +413,7 @@
 <h1 id="youtube-dl-download-videos-from-youtubecom">youtube-dl: Download videos from YouTube.com</h1>
 <p>(and more...)</p>
 <h2 id="what-is-it">What is it?</h2>
-<p><em>youtube-dl</em> is a small command-line program to download videos from YouTube.com and a few more sites. It requires the <a href="http://www.python.org/">Python interpreter</a>, version 2.x (x being at least 4), and it's not platform specific. It should work in your Unix box, in Windows or in Mac OS X. The latest version is <strong>2010.07.14</strong>. It's released to the public domain, which means you can modify it, redistribute it or use it however you like.</p>
+<p><em>youtube-dl</em> is a small command-line program to download videos from YouTube.com and a few more sites. It requires the <a href="http://www.python.org/">Python interpreter</a>, version 2.x (x being at least 4), and it's not platform specific. It should work in your Unix box, in Windows or in Mac OS X. The latest version is <strong>2010.07.22</strong>. It's released to the public domain, which means you can modify it, redistribute it or use it however you like.</p>
 <p>I'll try to keep it updated if YouTube.com changes the way you access their videos. After all, it's a simple and short program. However, I can't guarantee anything. If you detect it stops working, check for new versions and/or inform me about the problem, indicating the program version you are using. If the program stops working and I can't solve the problem but you have a solution, I'd like to know it. If that happens and you feel you can maintain the program yourself, tell me. My contact information is at <a href="http://rg03.wordpress.com/contact-me/">rg03.wordpress.com</a>.</p>
 <p>Thanks for all the feedback received so far. I'm glad people find my program useful.</p>
 <h2 id="usage-instructions">Usage instructions</h2>
@@ -438,10 +438,10 @@
 </li></ul>
 <h2 id="download-it">Download it</h2>
 <p>Note that if you directly click on these hyperlinks, your web browser will most likely display the program contents. It's usually better to right-click on it and choose the appropriate option, normally called <em>Save Target As</em> or <em>Save Link As</em>, depending on the web browser you are using.</p>
-<h3 id="httpbitbucketorgrg3youtube-dlraw20100714youtube-dl20100714"><a href="http://bitbucket.org/rg3/youtube-dl/raw/2010.07.14/youtube-dl">2010.07.14</a></h3>
-<ul><li><strong>MD5</strong>: 7808ec7e428d1b3c6a697fb63a51d401
-</li><li><strong>SHA1</strong>: d1ee2a5aa27af89ea8b5d2f3c98fdfe2c75a9460
-</li><li><strong>SHA256</strong>: 7c27bedbfb9ae00dcdc148211c5da612ce4229706b5e5df3f2bf1b263c058d9a
+<h3 id="httpbitbucketorgrg3youtube-dlraw20100722youtube-dl20100722"><a href="http://bitbucket.org/rg3/youtube-dl/raw/2010.07.22/youtube-dl">2010.07.22</a></h3>
+<ul><li><strong>MD5</strong>: d3a69eb8211e0aa7b61e0afbfe507d41
+</li><li><strong>SHA1</strong>: bafb1b4716ddaae506f10da3394ce7672d5f4e42
+</li><li><strong>SHA256</strong>: 0307ec6b7b58ef26e66afd9e260aba314ce706831a9cbaef3cb65705a66289cd
 </li></ul>
 <h2 id="proxy-support">Proxy support</h2>
 <p>youtube-dl supports downloading videos through a proxy, by setting the http_proxy environment variable to the proxy URL, as in <code>http://proxy_machine_name:port/</code>.</p>
@@ -469,12 +469,6 @@
 
 		
 		
-			<br/>
-			<small class="right" style="background: transparent url(http://bitbucket-assets.s3.amazonaws.com/img/icons/fugue/clock_small.png) no-repeat left 50%; padding-left: 16px;">
-				 This revision is from 2010-07-14 18:38
-			</small>
-			<div class="cb"></div>
-		
 	</div>
 
 
@@ -489,8 +483,8 @@
 				<a href="http://www.djangoproject.com/">Django 1.2.1</a> / 
 				<a href="http://bitbucket.org/jespern/django-piston/">Piston 0.2.3rc1</a> / 
 				<a href="http://www.selenic.com/mercurial/">Hg 1.3.1</a> / 
-				<a href="http://www.python.org">Python 2.5.2</a> /
-				r3065| fe01
+				<a href="http://www.python.org">Python 2.7.0</a> /
+				r3099| bfg02
 			</b></small>
 		</div>
 	</div>
