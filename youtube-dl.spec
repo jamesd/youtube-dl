@@ -39,7 +39,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc index.html
 
 %changelog
-* Fri Jul 23 2010 Till Maas <opensource@till.name> - 2010.07.21-1
+* Fri Jul 23 2010 Till Maas <opensource@till.name> - 2010.07.22-1
 - Update to latest release
 
 * Thu Jul 15 2010 Till Maas <opensource@till.name> - 2010.07.14-1
