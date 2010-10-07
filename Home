@@ -1,25 +1,39 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
-	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<title>
-	rg3 / youtube-dl / wiki / Home &mdash; bitbucket.org
+	rg3 / youtube-dl / wiki / Home &mdash; Bitbucket
 </title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="description" content="Mercurial hosting - we're here to serve." />
-	<meta name="keywords" content="mercurial,hg,hosting,bitbucket,rg3,youtube-dl,is,a,small,command-line,program,for,downloading,videos,from,YouTube.com.,wiki" />
-	<link rel="stylesheet" type="text/css" href="http://bitbucket-assets.s3.amazonaws.com/css/layout.css" />
-    <link rel="stylesheet" type="text/css" href="http://bitbucket-assets.s3.amazonaws.com/css/screen.css" />
-	<link rel="stylesheet" type="text/css" href="http://bitbucket-assets.s3.amazonaws.com/css/print.css" media="print" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="description" content="" />
+	<meta name="keywords" content="rg3,youtube-dl,is,a,small,command-line,program,for,downloading,videos,from,YouTube.com.,wiki" />
+
+	<link rel="stylesheet" type="text/css" href="http://bitbucket-assets.s3.amazonaws.com/css/layout.css?10293858" />
+    <link rel="stylesheet" type="text/css" href="http://bitbucket-assets.s3.amazonaws.com/css/screen.css?10293858" />
+    <link rel="stylesheet" href="http://bitbucket-assets.s3.amazonaws.com/css/reset.css?10293858" type="text/css" />
+	<link rel="stylesheet" href="http://bitbucket-assets.s3.amazonaws.com/css/main.css?10293858" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="http://bitbucket-assets.s3.amazonaws.com/css/print.css?10293858" media="print" />
 	<link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Bitbucket" />
 	<link rel="icon" href="http://bitbucket-assets.s3.amazonaws.com/img/logo_new.png" type="image/png"/>
+    
 	<script type="text/javascript">var MEDIA_URL = "http://bitbucket-assets.s3.amazonaws.com/"</script>
 	<script type="text/javascript" src="http://bitbucket-assets.s3.amazonaws.com/js/lib/bundle.020510May.js"></script>
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
-			Dropdown.init();
-			$(".tooltip").tipsy({gravity:'s'});
+			$('.dropdown').hover(
+                    function(){
+                      $(this).addClass('open');
+					  $(this).next('ul.dropdown-list').css('display', 'block');
+                    },
+                    function(){
+                        $('.dropdown').removeClass('open');
+					  	$(this).next('ul.dropdown-list').css('display', 'none');
+
+                    }
+            );
+            $.ajaxSetup ({ cache: false });
 		});
 	</script>
 	<noscript>
@@ -29,29 +43,6 @@
 			}
 		</style>
 	</noscript>
-
-	<!--[if lt IE 7]>
-	<style type="text/css">
-	body {
-		behavior: url(http://bitbucket-assets.s3.amazonaws.com/css/csshover.htc);
-	}
-	
-	#issues-issue pre {
-		white-space: normal !important;
-	}
-	
-	.changeset-description {
-		white-space: normal !important;
-	}
-	</style>
-	<script type="text/javascript"> 
-		$(document).ready(function(){ 
-			$('#header-wrapper').pngFix();
-			$('#sourcelist').pngFix();
-			$('.promo-signup-screenshot').pngFix();
-		}); 
-	</script>
-	<![endif]-->
 	
 	<link rel="stylesheet" href="http://bitbucket-assets.s3.amazonaws.com/css/highlight/default.css" type="text/css" />
 	<script type="text/javascript">
@@ -64,34 +55,61 @@
 	
 	<link href="/rg3/youtube-dl/rss" rel="alternate nofollow" type="application/rss+xml" title="RSS Feed for youtube-dl" />
 
+    <style type="text/css">
+      /* body { background: #fff url('/m/img/layout/bg_header_new.png') repeat-x left 24px !important; } */
+    </style>
 </head>
+
 <body class="">
-	<div id="main-wrapper">
-		<div id="header-wrapper">
-			<div id="header">
-				<a href="/"><img src="http://bitbucket-assets.s3.amazonaws.com/img/logo_myriad.png" alt="Bitbucket" id="header-wrapper-logo" /></a>
-				
-					<div id="header-nav">
-						<ul class="right">
-							<li><a href="/">Home</a></li>
-							<li><a href="/plans"><b>Plans &amp; Signup</b></a></li>
-							<li><a href="/repo/all">Repositories</a></li>
-							<li><a href="/news">News</a></li>
-							<li><a href="/help">Help</a></li>
-							<li><a href="/account/signin/">Sign in</a></li>
-						</ul>
-					</div>
-				
-			</div>
+
+
+<div id="header-wrap" class="clearfix">
+	<div id="header" class="clearfix">
+		<ul id="global-nav">
+			<li id="global-nav-home"><a href="http://www.atlassian.com">Atlassian Home</a></li>
+			<li id="global-nav-documentation"><a href="http://confluence.atlassian.com/display/BITBUCKET">Documentation</a></li>
+			<li id="global-nav-support"><a href="/support">Support</a></li>
+			<li id="global-nav-blogs"><a href="http://blog.bitbucket.org">Blog</a></li>
+			<li id="global-nav-forums"><a href="http://groups.google.com/group/bitbucket-users">Forums</a></li>
+		</ul>
+		<div id="logo">
+			<a href="/">Bitbucket by Atlassian</a>
 		</div>
+
+		<div id="main-nav" class="clearfix">
+		
+			<ul class="clearfix">
+				<li><a href="/plans">Pricing &amp; Signup</a></li>
+				<li><a href="/repo/all">Explore Bitbucket</a></li>
+				<li><a href="/account/signin/">Log in</a></li>
+				<li class="search-box">
+					<form action="/repo/all/" method="get">
+						<input id="search" type="text" name="name" />
+					</form>
+				</li>
+			</ul>
+		
+		</div>
+	</div>
+	
+
+</div>
+
+
+        
+            
+            
+                
+
+        
 		<div id="content-wrapper">
 			
-			
-			
 
-			
-			
-			
+<div id="wrapper">
+
+    <div id="content-wrapper">
+	<div id="content">
+	
 	
 	
 
@@ -105,7 +123,7 @@
 		date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
 		var cookieoptions = { path: '/', expires: date };
 		
-		window._shard = 'bfg02-gunicorn (ID 7)';
+		window._shard = 'bitbucket01 (ID 8)';
 		
 		$(document).ready(function(){
 			$('#toggle-repo-content').click(function(){
@@ -177,7 +195,7 @@
 		
 			
 				<li class="ui-tabs-nav-issues">
-					<a href="/rg3/youtube-dl/issues?status=new&amp;status=open"><span>Issues (15) &raquo;</span></a>
+					<a href="/rg3/youtube-dl/issues?status=new&amp;status=open"><span>Issues (17) &raquo;</span></a>
 					<ul>
 						<li><a href="/rg3/youtube-dl/issues?status=new">New issues</a></li>
 						<li><a href="/rg3/youtube-dl/issues?status=new&amp;status=open">Open issues</a></li>
@@ -196,11 +214,11 @@
 		
 		
 		<li class="tabs-right tabs-far-right">
-			<a href="/rg3/youtube-dl/descendants"><span>Forks/Queues (12)</span></a>
+			<a href="/rg3/youtube-dl/descendants"><span>Forks/Queues (17)</span></a>
 		</li>
 		
 		<li class="tabs-right">
-			<a href="/rg3/youtube-dl/zealots"><span>Followers (85)</span></a>
+			<a href="/rg3/youtube-dl/zealots"><span>Followers (97)</span></a>
 		</li>
 	</ul>
 </div>
@@ -235,9 +253,9 @@
 					<ul>
 						
 						
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/2df34df5ff7d.zip" class="zip">zip</a></li>
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/2df34df5ff7d.gz" class="compressed">gz</a></li>
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/2df34df5ff7d.bz2" class="compressed">bz2</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/190d2d0fd729.zip" class="zip">zip</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/190d2d0fd729.gz" class="compressed">gz</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/190d2d0fd729.bz2" class="compressed">bz2</a></li>
 						
 						
 					</ul>
@@ -253,7 +271,7 @@
 					
 					<ul>
 					
-						<li><a href="/rg3/youtube-dl/src/2df34df5ff7d">default</a></li>
+						<li><a href="/rg3/youtube-dl/src/190d2d0fd729">default</a></li>
 					
 					</ul>
 					
@@ -263,7 +281,7 @@
 					
 					<ul>
 					
-						<li><a href="/rg3/youtube-dl/src/2df34df5ff7d">tip</a></li>
+						<li><a href="/rg3/youtube-dl/src/190d2d0fd729">tip</a></li>
 					
 						<li><a href="/rg3/youtube-dl/src/f8e09aa30813">2010.08.04</a></li>
 					
@@ -348,9 +366,9 @@
 					<ul>
 						
 						
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/2df34df5ff7d.zip" class="zip">zip</a></li>
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/2df34df5ff7d.gz" class="compressed">gz</a></li>
-							<li><a rel="nofollow" href="/rg3/youtube-dl/get/2df34df5ff7d.bz2" class="compressed">bz2</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/190d2d0fd729.zip" class="zip">zip</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/190d2d0fd729.gz" class="compressed">gz</a></li>
+							<li><a rel="nofollow" href="/rg3/youtube-dl/get/190d2d0fd729.bz2" class="compressed">bz2</a></li>
 						
 						
 					</ul>
@@ -371,7 +389,7 @@
 		
 		<p class="repo-desc-description">youtube-dl is a small command-line program for downloading videos from <a href="http://YouTube.com" rel="nofollow">YouTube.com</a>.</p>
 		
-		<div id="repo-desc-cloneinfo">Clone this repository (size: 313.2 KB): <a href="http://bitbucket.org/rg3/youtube-dl" onclick="$('#clone-url-ssh').hide();$('#clone-url-https').toggle();return(false);"><small>HTTPS</small></a> / <a href="ssh://hg@bitbucket.org/rg3/youtube-dl" onclick="$('#clone-url-https').hide();$('#clone-url-ssh').toggle();return(false);"><small>SSH</small></a><br/>
+		<div id="repo-desc-cloneinfo">Clone this repository (size: 341.1 KB): <a href="http://bitbucket.org/rg3/youtube-dl" onclick="$('#clone-url-ssh').hide();$('#clone-url-https').toggle();return(false);"><small>HTTPS</small></a> / <a href="ssh://hg@bitbucket.org/rg3/youtube-dl" onclick="$('#clone-url-https').hide();$('#clone-url-ssh').toggle();return(false);"><small>SSH</small></a><br/>
 		<pre id="clone-url-https">$ hg clone <a href="http://bitbucket.org/rg3/youtube-dl">http://bitbucket.org/rg3/youtube-dl</a></pre>
 		
 		<pre id="clone-url-ssh" style="display:none;">$ hg clone <a href="ssh://hg@bitbucket.org/rg3/youtube-dl">ssh://hg@bitbucket.org/rg3/youtube-dl</a></pre></div>
@@ -384,7 +402,7 @@
 	</div>
 
 
-			
+
 			
 
 	
@@ -413,7 +431,7 @@
 <h1 id="youtube-dl-download-videos-from-youtubecom">youtube-dl: Download videos from YouTube.com</h1>
 <p>(and more...)</p>
 <h2 id="what-is-it">What is it?</h2>
-<p><em>youtube-dl</em> is a small command-line program to download videos from YouTube.com and a few more sites. It requires the <a href="http://www.python.org/">Python interpreter</a>, version 2.x (x being at least 4), and it's not platform specific. It should work in your Unix box, in Windows or in Mac OS X. The latest version is <strong>2010.08.04</strong>. It's released to the public domain, which means you can modify it, redistribute it or use it however you like.</p>
+<p><em>youtube-dl</em> is a small command-line program to download videos from YouTube.com and a few more sites. It requires the <a href="http://www.python.org/">Python interpreter</a>, version 2.x (x being at least 4), and it's not platform specific. It should work in your Unix box, in Windows or in Mac OS X. The latest version is <strong>2010.10.03</strong>. It's released to the public domain, which means you can modify it, redistribute it or use it however you like.</p>
 <p>I'll try to keep it updated if YouTube.com changes the way you access their videos. After all, it's a simple and short program. However, I can't guarantee anything. If you detect it stops working, check for new versions and/or inform me about the problem, indicating the program version you are using. If the program stops working and I can't solve the problem but you have a solution, I'd like to know it. If that happens and you feel you can maintain the program yourself, tell me. My contact information is at <a href="http://rg03.wordpress.com/contact-me/">rg03.wordpress.com</a>.</p>
 <p>Thanks for all the feedback received so far. I'm glad people find my program useful.</p>
 <h2 id="usage-instructions">Usage instructions</h2>
@@ -425,10 +443,10 @@
 <p>The program is usually invoked as <em>youtube-dl</em> followed by options and the video URLs. Listing all the options here would make this text too long, so you can run <em>youtube-dl --help</em> and get a summary of them. From that point on you can start experimenting with the different options yourself. The most common ones are -t (or -l) to include the video title in the file name, and either -f or -b to download a high quality version of the video. Also, the -o option can specify the output file name and path. It allows special character sequences that can be used as templates to be replaced. See the "Output template" section for more details.</p>
 <h2 id="download-it">Download it</h2>
 <p>Note that if you directly click on these hyperlinks, your web browser will most likely display the program contents. It's usually better to right-click on it and choose the appropriate option, normally called <em>Save Target As</em> or <em>Save Link As</em>, depending on the web browser you are using.</p>
-<h3 id="httpbitbucketorgrg3youtube-dlraw20100804youtube-dl20100804"><a href="http://bitbucket.org/rg3/youtube-dl/raw/2010.08.04/youtube-dl">2010.08.04</a></h3>
-<ul><li><strong>MD5</strong>: 8b1b8b922b758aae28f6c158e9a1baba
-</li><li><strong>SHA1</strong>: 1497bbaecc3a9b0f343021ab9a1d940315a1003e
-</li><li><strong>SHA256</strong>: 55044a3232a119b82bc8b8b521fba54059b26ec09577606e4a12ce7903732a56
+<h3 id="httpbitbucketorgrg3youtube-dlraw20101003youtube-dl20101003"><a href="http://bitbucket.org/rg3/youtube-dl/raw/2010.10.03/youtube-dl">2010.10.03</a></h3>
+<ul><li><strong>MD5</strong>: c552c00881845689900b67525ac6f72b
+</li><li><strong>SHA1</strong>: 436006432018fca75298e63742bb2c13feb42f98
+</li><li><strong>SHA256</strong>: eb6a5deb494e8949918ca5a674d961439963fadd822df67dfa49ce47fa326d75
 </li></ul>
 <h2 id="faq">FAQ</h2>
 <p>The <a href="/rg3/youtube-dl/wiki/Frequently_Asked_Questions">Frequently Asked Questions</a> page contains answers to some common questions that pop up in my e-mail and in the issue tracker. Be sure to check it before reporting problems.</p>
@@ -474,22 +492,41 @@
 	</div>
 
 
-			<div class="cb"></div>
-		</div>
-		<div class="cb footer-placeholder"></div>
 	</div>
-	<div id="footer-wrapper">
-		<div id="footer">
-			<a href="/site/terms/">TOS</a> | <a href="/site/privacy/">Privacy Policy</a> | <a href="http://blog.bitbucket.org/">Blog</a> | <a href="http://bitbucket.org/jespern/bitbucket/issues/new/">Report Bug</a> | <a href="http://groups.google.com/group/bitbucket-users">Discuss</a> | <a href="http://avantlumiere.com/">&copy; 2008-2010</a>
-			| We run <small><b>
-				<a href="http://www.djangoproject.com/">Django 1.2.1</a> / 
-				<a href="http://bitbucket.org/jespern/django-piston/">Piston 0.2.3rc1</a> / 
-				<a href="http://www.selenic.com/mercurial/">Hg 1.3.1</a> / 
-				<a href="http://www.python.org">Python 2.7.0</a> /
-				r3101| bfg02
-			</b></small>
-		</div>
+
+
+	<div id="footer" class="clearfix">
+		<ul class="footer-nav">
+			<li>Copyright &copy; 2010 <a href="http://atlassian.com">Atlassian</a><span class="pipe">|</span></li>
+			<li><a href="http://www.atlassian.com/hosted/terms.jsp">Terms of Service</a><span class="pipe">|</span></li>
+			<li><a href="http://www.atlassian.com/about/privacy.jsp">Privacy</a></li>
+		</ul>
+		<ul class="social-nav">
+			<li class="blog"><a href="http://blog.bitbucket.org">Bitbucket Blog</a></li>
+			<li class="twitter"><a href="http://www.twitter.com/bitbucket">Twitter</a></li>
+		</ul>
 	</div>
+    <div id="footer2" class="clearfix">
+        We run 
+            <a href="http://www.djangoproject.com/">Django 1.2.3</a> / 
+            <a href="http://bitbucket.org/jespern/django-piston/">Piston 0.2.3rc1</a> / 
+            <a href="http://www.selenic.com/mercurial/">Hg 1.6</a> / 
+            <a href="http://www.python.org">Python 2.7.0</a> /
+            r3577 | bitbucket01
+        
+    </div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+<!-- <script type="text/javascript"> Cufon.now(); </script> -->
 	
     	<script type="text/javascript">
     	  var _gaq = _gaq || [];
@@ -499,7 +536,7 @@
     	  _gaq.push(['atl._setAccount', 'UA-6032469-33'], ['atl._trackPageview']);
     	  (function() {
     	    var ga = document.createElement('script');
-    	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 
+    	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
     	        'http://www') + '.google-analytics.com/ga.js';
     	    ga.setAttribute('async', 'true');
     	    document.documentElement.firstChild.appendChild(ga);
