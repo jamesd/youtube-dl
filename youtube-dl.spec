@@ -1,13 +1,12 @@
 Name:           youtube-dl
-Version:        2010.10.03
+Version:        2010.10.24
 Release:        1%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
 License:        Public Domain
-URL:            http://bitbucket.org/rg3/youtube-dl
-Source0:        http://bitbucket.org/rg3/youtube-dl/raw/%{version}/youtube-dl
-Source1:        http://bitbucket.org/rg3/youtube-dl/wiki/Home
+URL:            http://rg3.github.com/youtube-dl/
+Source0:        http://github.com/rg3/youtube-dl/raw/%{version}/youtube-dl
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 Requires:       python >= 2.4
@@ -20,7 +19,7 @@ youtube-dl to mały tekstowy program służący do pobierania filmów z
 youtube.com.
 
 %prep
-install -p -m0644 %{SOURCE1} index.html
+#nothing to prep
 
 %build
 #nothing to build
@@ -28,7 +27,7 @@ install -p -m0644 %{SOURCE1} index.html
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
-install -m 755 %{SOURCE0} $RPM_BUILD_ROOT%{_bindir}
+install -p -m 755 %{SOURCE0} $RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -36,9 +35,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
-%doc index.html
 
 %changelog
+* Sat Nov 06 2010 Till Maas <opensource@till.name> - 2010.10.24-1
+- Update to latest release
+- Adjust to new upstream location at github instead of bitbucket
+- add -p to install
+- remove index.html
+
 * Thu Oct 07 2010 Till Maas <opensource@till.name> - 2010.10.03-1
 - Update to latest release
 
