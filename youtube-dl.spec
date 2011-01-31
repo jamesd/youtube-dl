@@ -1,12 +1,12 @@
 Name:           youtube-dl
-Version:        2010.12.09
+Version:        2011.01.30
 Release:        1%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
 License:        Public Domain
 URL:            http://rg3.github.com/youtube-dl/
-Source0:        http://github.com/rg3/youtube-dl/raw/%{version}/youtube-dl
+Source0:        https://github.com/rg3/youtube-dl/raw/%{version}/youtube-dl
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 Requires:       python >= 2.4
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/%{name}
 
 %changelog
+* Mon Jan 31 2011 Till Maas <opensource@till.name> - 2010.01.30-1
+- Update to latest release
+
 * Sun Dec 12 2010 Till Maas <opensource@till.name> - 2010.12.09-1
 - Update to latest release to adjust with youtube changes
 
