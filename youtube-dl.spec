@@ -1,6 +1,6 @@
 Name:           youtube-dl
-Version:        2011.01.30
-Release:        2%{?dist}
+Version:        2011.03.29
+Release:        1%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/%{name}
 
 %changelog
+* Fri May 13 2011 Till Maas <opensource@till.name> - 2011.03.29-1
+- Update to latest release
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2011.01.30-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
