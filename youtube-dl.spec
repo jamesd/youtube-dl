@@ -1,5 +1,5 @@
 Name:           youtube-dl
-Version:        2011.03.29
+Version:        2011.08.04
 Release:        1%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
@@ -37,6 +37,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/%{name}
 
 %changelog
+* Thu Aug 04 2011 Till Maas <opensource@till.name> - 2011.08.04-1
+- Update to latest release to adjust to backend changes (Red Hat Bug
+  #728378)
+
 * Fri May 13 2011 Till Maas <opensource@till.name> - 2011.03.29-1
 - Update to latest release
 
