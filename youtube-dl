@@ -14,10 +14,11 @@ __author__  = (
 	'Sören Schulze',
 	'Kevin Ngo',
 	'Ori Avtalion',
+	'shizeeg',
 	)
 
 __license__ = 'Public Domain'
-__version__ = '2011.11.23'
+__version__ = '2011.12.08'
 
 UPDATE_URL = 'https://raw.github.com/rg3/youtube-dl/master/youtube-dl'
 
@@ -281,6 +282,14 @@ def _simplify_title(title):
 	expr = re.compile(ur'[^\w\d_\-]+', flags=re.UNICODE)
 	return expr.sub(u'_', title).strip(u'_')
 
+def _orderedSet(iterable):
+	""" Remove all duplicates from the input iterable """
+	res = []
+	for el in iterable:
+		if el not in res:
+			res.append(el)
+	return res
+
 class DownloadError(Exception):
 	"""Download Error exception.
 
@@ -306,6 +315,10 @@ class PostProcessingError(Exception):
 	This exception may be raised by PostProcessor's .run() method to
 	indicate an error in the postprocessing task.
 	"""
+	pass
+
+class MaxDownloadsReached(Exception):
+	""" --max-downloads limit has been reached. """
 	pass
 
 
@@ -698,8 +711,31 @@ class FileDownloader(object):
 			self.trouble(u'ERROR: invalid system charset or erroneous output template')
 			return None
 
+	def _match_entry(self, info_dict):
+		""" Returns None iff the file should be downloaded """
+
+		title = info_dict['title']
+		matchtitle = self.params.get('matchtitle', False)
+		if matchtitle and not re.search(matchtitle, title, re.IGNORECASE):
+			return u'[download] "' + title + '" title did not match pattern "' + matchtitle + '"'
+		rejecttitle = self.params.get('rejecttitle', False)
+		if rejecttitle and re.search(rejecttitle, title, re.IGNORECASE):
+			return u'"' + title + '" title matched reject pattern "' + rejecttitle + '"'
+		return None
+
 	def process_info(self, info_dict):
 		"""Process a single dictionary returned by an InfoExtractor."""
+
+		reason = self._match_entry(info_dict)
+		if reason is not None:
+			self.to_screen(u'[download] ' + reason)
+			return
+
+		max_downloads = self.params.get('max_downloads')
+		if max_downloads is not None:
+			if self._num_downloads > int(max_downloads):
+				raise MaxDownloadsReached()
+
 		filename = self.prepare_filename(info_dict)
 		
 		# Forced printings
@@ -723,16 +759,6 @@ class FileDownloader(object):
 		if filename is None:
 			return
 
-		matchtitle=self.params.get('matchtitle',False)
-		rejecttitle=self.params.get('rejecttitle',False)
-		title=info_dict['title'].encode(preferredencoding(), 'xmlcharrefreplace')
-		if matchtitle and not re.search(matchtitle, title, re.IGNORECASE):
-			self.to_screen(u'[download] "%s" title did not match pattern "%s"' % (title, matchtitle))
-			return
-		if rejecttitle and re.search(rejecttitle, title, re.IGNORECASE):
-			self.to_screen(u'[download] "%s" title matched reject pattern "%s"' % (title, rejecttitle))
-			return
-			
 		if self.params.get('nooverwrites', False) and os.path.exists(filename):
 			self.to_stderr(u'WARNING: file exists and will be skipped')
 			return
@@ -1095,6 +1121,7 @@ class YoutubeIE(InfoExtractor):
 	_NETRC_MACHINE = 'youtube'
 	# Listed in order of quality
 	_available_formats = ['38', '37', '22', '45', '35', '44', '34', '18', '43', '6', '5', '17', '13']
+	_available_formats_prefer_free = ['38', '37', '45', '22', '44', '35', '43', '34', '18', '6', '5', '17', '13']
 	_video_extensions = {
 		'13': '3gp',
 		'17': 'mp4',
@@ -1344,10 +1371,11 @@ class YoutubeIE(InfoExtractor):
 			url_map = dict((ud['itag'][0], ud['url'][0]) for ud in url_data)
 
 			format_limit = self._downloader.params.get('format_limit', None)
-			if format_limit is not None and format_limit in self._available_formats:
-				format_list = self._available_formats[self._available_formats.index(format_limit):]
+			available_formats = self._available_formats_prefer_free if self._downloader.params.get('prefer_free_formats', False) else self._available_formats
+			if format_limit is not None and format_limit in available_formats:
+				format_list = available_formats[available_formats.index(format_limit):]
 			else:
-				format_list = self._available_formats
+				format_list = available_formats
 			existing_formats = [x for x in format_list if x in url_map]
 			if len(existing_formats) == 0:
 				self._downloader.trouble(u'ERROR: no known formats available for video')
@@ -1603,7 +1631,7 @@ class DailymotionIE(InfoExtractor):
 
 		video_url = mediaURL
 
-		mobj = re.search(r'(?im)<title>Dailymotion\s*-\s*(.+)\s*-\s*[^<]+?</title>', webpage)
+		mobj = re.search(r'(?im)<title>\s*(.+)\s*-\s*Video\s+Dailymotion</title>', webpage)
 		if mobj is None:
 			self._downloader.trouble(u'ERROR: unable to extract title')
 			return
@@ -3608,6 +3636,245 @@ class InfoQIE(InfoExtractor):
 		except UnavailableVideoError, err:
 			self._downloader.trouble(u'\nERROR: unable to download ' + video_url)
 
+class MixcloudIE(InfoExtractor):
+	"""Information extractor for www.mixcloud.com"""
+	_VALID_URL = r'^(?:https?://)?(?:www\.)?mixcloud\.com/([\w\d-]+)/([\w\d-]+)'
+	IE_NAME = u'mixcloud'
+
+	def __init__(self, downloader=None):
+		InfoExtractor.__init__(self, downloader)
+
+	def report_download_json(self, file_id):
+		"""Report JSON download."""
+		self._downloader.to_screen(u'[%s] Downloading json' % self.IE_NAME)
+
+	def report_extraction(self, file_id):
+		"""Report information extraction."""
+		self._downloader.to_screen(u'[%s] %s: Extracting information' % (self.IE_NAME, file_id))
+
+	def get_urls(self, jsonData, fmt, bitrate='best'):
+		"""Get urls from 'audio_formats' section in json"""
+		file_url = None
+		try:
+			bitrate_list = jsonData[fmt]
+			if bitrate is None or bitrate == 'best' or bitrate not in bitrate_list:
+				bitrate = max(bitrate_list) # select highest
+
+			url_list = jsonData[fmt][bitrate]
+		except TypeError: # we have no bitrate info.
+			url_list = jsonData[fmt]
+				
+		return url_list
+
+	def check_urls(self, url_list):
+		"""Returns 1st active url from list"""
+		for url in url_list:
+			try:
+				urllib2.urlopen(url)
+				return url
+			except (urllib2.URLError, httplib.HTTPException, socket.error), err:
+				url = None
+
+		return None
+
+	def _print_formats(self, formats):
+		print 'Available formats:'
+		for fmt in formats.keys():
+			for b in formats[fmt]:
+				try:
+					ext = formats[fmt][b][0]
+					print '%s\t%s\t[%s]' % (fmt, b, ext.split('.')[-1])
+				except TypeError: # we have no bitrate info
+					ext = formats[fmt][0]
+					print '%s\t%s\t[%s]' % (fmt, '??', ext.split('.')[-1])
+					break
+
+	def _real_extract(self, url):
+		mobj = re.match(self._VALID_URL, url)
+		if mobj is None:
+			self._downloader.trouble(u'ERROR: invalid URL: %s' % url)
+			return
+		# extract uploader & filename from url
+		uploader = mobj.group(1).decode('utf-8')
+		file_id = uploader + "-" + mobj.group(2).decode('utf-8')
+
+		# construct API request
+		file_url = 'http://www.mixcloud.com/api/1/cloudcast/' + '/'.join(url.split('/')[-3:-1]) + '.json'
+		# retrieve .json file with links to files
+		request = urllib2.Request(file_url)
+		try:
+			self.report_download_json(file_url)
+			jsonData = urllib2.urlopen(request).read()
+		except (urllib2.URLError, httplib.HTTPException, socket.error), err:
+			self._downloader.trouble(u'ERROR: Unable to retrieve file: %s' % str(err))
+			return
+
+		# parse JSON
+		json_data = json.loads(jsonData)
+		player_url = json_data['player_swf_url']
+		formats = dict(json_data['audio_formats'])
+
+		req_format = self._downloader.params.get('format', None)
+		bitrate = None
+
+		if self._downloader.params.get('listformats', None):
+			self._print_formats(formats)
+			return
+
+		if req_format is None or req_format == 'best':
+			for format_param in formats.keys():
+				url_list = self.get_urls(formats, format_param)
+				# check urls
+				file_url = self.check_urls(url_list)
+				if file_url is not None:
+					break # got it!
+		else:
+			if req_format not in formats.keys():
+				self._downloader.trouble(u'ERROR: format is not available')
+				return
+
+			url_list = self.get_urls(formats, req_format)
+			file_url = self.check_urls(url_list)
+			format_param = req_format
+
+		# We have audio
+		self._downloader.increment_downloads()
+		try:
+			# Process file information
+			self._downloader.process_info({
+				'id':		file_id.decode('utf-8'),
+				'url':		file_url.decode('utf-8'),
+				'uploader':	uploader.decode('utf-8'),
+				'upload_date':	u'NA',
+				'title':	json_data['name'],
+				'stitle':	_simplify_title(json_data['name']),
+				'ext':		file_url.split('.')[-1].decode('utf-8'),
+				'format':	(format_param is None and u'NA' or format_param.decode('utf-8')),
+				'thumbnail':    json_data['thumbnail_url'],
+				'description':  json_data['description'],
+				'player_url':	player_url.decode('utf-8'),
+			})
+		except UnavailableVideoError, err:
+			self._downloader.trouble(u'ERROR: unable to download file')
+
+class StanfordOpenClassroomIE(InfoExtractor):
+	"""Information extractor for Stanford's Open ClassRoom"""
+
+	_VALID_URL = r'^(?:https?://)?openclassroom.stanford.edu(?P<path>/?|(/MainFolder/(?:HomePage|CoursePage|VideoPage)\.php([?]course=(?P<course>[^&]+)(&video=(?P<video>[^&]+))?(&.*)?)?))$'
+	IE_NAME = u'stanfordoc'
+
+	def report_download_webpage(self, objid):
+		"""Report information extraction."""
+		self._downloader.to_screen(u'[%s] %s: Downloading webpage' % (self.IE_NAME, objid))
+
+	def report_extraction(self, video_id):
+		"""Report information extraction."""
+		self._downloader.to_screen(u'[%s] %s: Extracting information' % (self.IE_NAME, video_id))
+
+	def _real_extract(self, url):
+		mobj = re.match(self._VALID_URL, url)
+		if mobj is None:
+			self._downloader.trouble(u'ERROR: invalid URL: %s' % url)
+			return
+
+		if mobj.group('course') and mobj.group('video'): # A specific video
+			course = mobj.group('course')
+			video = mobj.group('video')
+			info = {
+				'id': _simplify_title(course + '_' + video),
+			}
+	
+			self.report_extraction(info['id'])
+			baseUrl = 'http://openclassroom.stanford.edu/MainFolder/courses/' + course + '/videos/'
+			xmlUrl = baseUrl + video + '.xml'
+			try:
+				metaXml = urllib2.urlopen(xmlUrl).read()
+			except (urllib2.URLError, httplib.HTTPException, socket.error), err:
+				self._downloader.trouble(u'ERROR: unable to download video info XML: %s' % unicode(err))
+				return
+			mdoc = xml.etree.ElementTree.fromstring(metaXml)
+			try:
+				info['title'] = mdoc.findall('./title')[0].text
+				info['url'] = baseUrl + mdoc.findall('./videoFile')[0].text
+			except IndexError:
+				self._downloader.trouble(u'\nERROR: Invalid metadata XML file')
+				return
+			info['stitle'] = _simplify_title(info['title'])
+			info['ext'] = info['url'].rpartition('.')[2]
+			info['format'] = info['ext']
+			self._downloader.increment_downloads()
+			try:
+				self._downloader.process_info(info)
+			except UnavailableVideoError, err:
+				self._downloader.trouble(u'\nERROR: unable to download video')
+		elif mobj.group('course'): # A course page
+			unescapeHTML = HTMLParser.HTMLParser().unescape
+
+			course = mobj.group('course')
+			info = {
+				'id': _simplify_title(course),
+				'type': 'playlist',
+			}
+
+			self.report_download_webpage(info['id'])
+			try:
+				coursepage = urllib2.urlopen(url).read()
+			except (urllib2.URLError, httplib.HTTPException, socket.error), err:
+				self._downloader.trouble(u'ERROR: unable to download course info page: ' + unicode(err))
+				return
+
+			m = re.search('<h1>([^<]+)</h1>', coursepage)
+			if m:
+				info['title'] = unescapeHTML(m.group(1))
+			else:
+				info['title'] = info['id']
+			info['stitle'] = _simplify_title(info['title'])
+
+			m = re.search('<description>([^<]+)</description>', coursepage)
+			if m:
+				info['description'] = unescapeHTML(m.group(1))
+
+			links = _orderedSet(re.findall('<a href="(VideoPage.php\?[^"]+)">', coursepage))
+			info['list'] = [
+				{
+					'type': 'reference',
+					'url': 'http://openclassroom.stanford.edu/MainFolder/' + unescapeHTML(vpage),
+				}
+					for vpage in links]
+
+			for entry in info['list']:
+				assert entry['type'] == 'reference'
+				self.extract(entry['url'])
+		else: # Root page
+			unescapeHTML = HTMLParser.HTMLParser().unescape
+
+			info = {
+				'id': 'Stanford OpenClassroom',
+				'type': 'playlist',
+			}
+
+			self.report_download_webpage(info['id'])
+			rootURL = 'http://openclassroom.stanford.edu/MainFolder/HomePage.php'
+			try:
+				rootpage = urllib2.urlopen(rootURL).read()
+			except (urllib2.URLError, httplib.HTTPException, socket.error), err:
+				self._downloader.trouble(u'ERROR: unable to download course info page: ' + unicode(err))
+				return
+
+			info['title'] = info['id']
+			info['stitle'] = _simplify_title(info['title'])
+
+			links = _orderedSet(re.findall('<a href="(CoursePage.php\?[^"]+)">', rootpage))
+			info['list'] = [
+				{
+					'type': 'reference',
+					'url': 'http://openclassroom.stanford.edu/MainFolder/' + unescapeHTML(cpage),
+				}
+					for cpage in links]
+
+			for entry in info['list']:
+				assert entry['type'] == 'reference'
+				self.extract(entry['url'])
 
 
 class PostProcessor(object):
@@ -3703,8 +3970,13 @@ class FFmpegExtractAudioPP(PostProcessor):
 			return None
 
 		more_opts = []
-		if self._preferredcodec == 'best' or self._preferredcodec == filecodec:
-			if filecodec in ['aac', 'mp3', 'vorbis']:
+		if self._preferredcodec == 'best' or self._preferredcodec == filecodec or (self._preferredcodec == 'm4a' and filecodec == 'aac'):
+			if self._preferredcodec == 'm4a' and filecodec == 'aac':
+				# Lossless, but in another container
+				acodec = 'copy'
+				extension = self._preferredcodec
+				more_opts = ['-absf', 'aac_adtstoasc']
+			elif filecodec in ['aac', 'mp3', 'vorbis']:
 				# Lossless if possible
 				acodec = 'copy'
 				extension = filecodec
@@ -3721,13 +3993,15 @@ class FFmpegExtractAudioPP(PostProcessor):
 					more_opts += ['-ab', self._preferredquality]
 		else:
 			# We convert the audio (lossy)
-			acodec = {'mp3': 'libmp3lame', 'aac': 'aac', 'vorbis': 'libvorbis'}[self._preferredcodec]
+			acodec = {'mp3': 'libmp3lame', 'aac': 'aac', 'm4a': 'aac', 'vorbis': 'libvorbis'}[self._preferredcodec]
 			extension = self._preferredcodec
 			more_opts = []
 			if self._preferredquality is not None:
 				more_opts += ['-ab', self._preferredquality]
 			if self._preferredcodec == 'aac':
 				more_opts += ['-f', 'adts']
+			if self._preferredcodec == 'm4a':
+				more_opts += ['-absf', 'aac_adtstoasc']
 			if self._preferredcodec == 'vorbis':
 				extension = 'ogg'
 
@@ -3795,6 +4069,20 @@ def parseOpts():
 	# Deferred imports
 	import getpass
 	import optparse
+	import shlex
+
+	def _readOptions(filename):
+		try:
+			optionf = open(filename)
+		except IOError:
+			return [] # silently skip if file is not present
+		try:
+			res = []
+			for l in optionf:
+				res += shlex.split(l, comments=True)
+		finally:
+			optionf.close()
+		return res
 
 	def _format_option_string(option):
 		''' ('-o', '--option') -> -o, --format METAVAR'''
@@ -3875,6 +4163,7 @@ def parseOpts():
 			dest='playlistend', metavar='NUMBER', help='playlist video to end at (default is last)', default=-1)
 	selection.add_option('--match-title', dest='matchtitle', metavar='REGEX',help='download only matching titles (regex or caseless sub-string)')
 	selection.add_option('--reject-title', dest='rejecttitle', metavar='REGEX',help='skip download for matching titles (regex or caseless sub-string)')
+	selection.add_option('--max-downloads', metavar='NUMBER', dest='max_downloads', help='Abort after downloading NUMBER files', default=None)
 
 	authentication.add_option('-u', '--username',
 			dest='username', metavar='USERNAME', help='account username')
@@ -3888,6 +4177,8 @@ def parseOpts():
 			action='store', dest='format', metavar='FORMAT', help='video format code')
 	video_format.add_option('--all-formats',
 			action='store_const', dest='format', help='download all available video formats', const='all')
+	video_format.add_option('--prefer-free-formats',
+			action='store_true', dest='prefer_free_formats', default=False, help='prefer free video formats unless a specific one is requested')
 	video_format.add_option('--max-quality',
 			action='store', dest='format_limit', metavar='FORMAT', help='highest quality format to download')
 	video_format.add_option('-F', '--list-formats',
@@ -3931,7 +4222,7 @@ def parseOpts():
 			action='store_true', dest='autonumber',
 			help='number downloaded files starting from 00000', default=False)
 	filesystem.add_option('-o', '--output',
-			dest='outtmpl', metavar='TEMPLATE', help='output filename template. Use %(stitle)s to get the title, %(uploader)s for the uploader name, %(autonumber)s to get an automatically incremented number, %(ext)s for the filename extension, and %% for a literal percent')
+			dest='outtmpl', metavar='TEMPLATE', help='output filename template. Use %(stitle)s to get the title, %(uploader)s for the uploader name, %(autonumber)s to get an automatically incremented number, %(ext)s for the filename extension, %(upload_date)s for the upload date (YYYYMMDD), and %% for a literal percent. Use - to output to stdout.')
 	filesystem.add_option('-a', '--batch-file',
 			dest='batchfile', metavar='FILE', help='file containing URLs to download (\'-\' for stdin)')
 	filesystem.add_option('-w', '--no-overwrites',
@@ -3959,7 +4250,7 @@ def parseOpts():
 	postproc.add_option('--extract-audio', action='store_true', dest='extractaudio', default=False,
 			help='convert video files to audio-only files (requires ffmpeg and ffprobe)')
 	postproc.add_option('--audio-format', metavar='FORMAT', dest='audioformat', default='best',
-			help='"best", "aac", "vorbis" or "mp3"; best by default')
+			help='"best", "aac", "vorbis", "mp3", or "m4a"; best by default')
 	postproc.add_option('--audio-quality', metavar='QUALITY', dest='audioquality', default='128K',
 			help='ffmpeg audio bitrate specification, 128k by default')
 	postproc.add_option('-k', '--keep-video', action='store_true', dest='keepvideo', default=False,
@@ -3974,7 +4265,13 @@ def parseOpts():
 	parser.add_option_group(authentication)
 	parser.add_option_group(postproc)
 
-	opts, args = parser.parse_args()
+	xdg_config_home = os.environ.get('XDG_CONFIG_HOME')
+	if xdg_config_home:
+		userConf = os.path.join(xdg_config_home, 'youtube-dl.conf')
+	else:
+		userConf = os.path.join(os.path.expanduser('~'), '.config', 'youtube-dl.conf')
+	argv = _readOptions('/etc/youtube-dl.conf') + _readOptions(userConf) + sys.argv[1:]
+	opts, args = parser.parse_args(argv)
 
 	return parser, opts, args
 
@@ -4008,6 +4305,8 @@ def gen_extractors():
 		XVideosIE(),
 		SoundcloudIE(),
 		InfoQIE(),
+		MixcloudIE(),
+		StanfordOpenClassroomIE(),
 
 		GenericIE()
 	]
@@ -4097,7 +4396,7 @@ def _real_main():
 	except (TypeError, ValueError), err:
 		parser.error(u'invalid playlist end number specified')
 	if opts.extractaudio:
-		if opts.audioformat not in ['best', 'aac', 'mp3', 'vorbis']:
+		if opts.audioformat not in ['best', 'aac', 'mp3', 'vorbis', 'm4a']:
 			parser.error(u'invalid audio format specified')
 
 	# File downloader
@@ -4143,6 +4442,8 @@ def _real_main():
 		'writeinfojson': opts.writeinfojson,
 		'matchtitle': opts.matchtitle,
 		'rejecttitle': opts.rejecttitle,
+		'max_downloads': opts.max_downloads,
+		'prefer_free_formats': opts.prefer_free_formats,
 		})
 	for extractor in extractors:
 		fd.add_info_extractor(extractor)
@@ -4161,7 +4462,12 @@ def _real_main():
 			parser.error(u'you must provide at least one URL')
 		else:
 			sys.exit()
-	retcode = fd.download(all_urls)
+	
+	try:
+		retcode = fd.download(all_urls)
+	except MaxDownloadsReached:
+		fd.to_screen(u'--max-download limit reached, aborting.')
+		retcode = 101
 
 	# Dump cookie jar if requested
 	if opts.cookiefile is not None:
