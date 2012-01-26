@@ -1,12 +1,13 @@
 Name:           youtube-dl
 Version:        2011.12.08
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
 License:        Public Domain
 URL:            http://rg3.github.com/youtube-dl/
 Source0:        https://github.com/rg3/youtube-dl/raw/%{version}/youtube-dl
+Source1:        %{name}.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 Requires:       python >= 2.4
@@ -26,8 +27,9 @@ youtube.com.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_sysconfdir}
 install -p -m 755 %{SOURCE0} $RPM_BUILD_ROOT%{_bindir}
+install -p -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -35,8 +37,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
+%config %{_sysconfdir}/%{name}.conf
 
 %changelog
+* Thu Jan 26 2012 Till Maas <opensource@till.name> - 2011.12.08-3
+- Provide --prefer-free-formats in %%{_sysconfdir}/%%{name}.conf (RH #757577)
+  (Patch by Jan Kratochvil)
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2011.12.08-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
