@@ -1,6 +1,6 @@
 Name:           youtube-dl
-Version:        2011.12.08
-Release:        3%{?dist}
+Version:        2012.02.27
+Release:        1%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %config %{_sysconfdir}/%{name}.conf
 
 %changelog
+* Sat Apr 21 2012 Till Maas <opensource@till.name> - 2012.02.27-1
+- Update to new release
+
 * Thu Jan 26 2012 Till Maas <opensource@till.name> - 2011.12.08-3
 - Provide --prefer-free-formats in %%{_sysconfdir}/%%{name}.conf (RH #757577)
   (Patch by Jan Kratochvil)
