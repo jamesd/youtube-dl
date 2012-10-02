@@ -1,16 +1,16 @@
 Name:           youtube-dl
-Version:        2012.02.27
+Version:        2012.09.27
 Release:        2%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
 License:        Public Domain
 URL:            http://rg3.github.com/youtube-dl/
-Source0:        https://github.com/rg3/youtube-dl/raw/%{version}/youtube-dl
+Source0:        https://github.com/rg3/%{name}/tarball/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
-Requires:       python >= 2.4
+Requires:       python >= 2.6
 
 %description
 Small command-line program to download videos from YouTube.
@@ -20,15 +20,18 @@ youtube-dl to mały tekstowy program służący do pobierania filmów z
 youtube.com.
 
 %prep
-#nothing to prep
+%setup -cqTn %{name}-%{version}
+gzip -dc %{SOURCE0} | tar --strip-components=1 -xvvf -
+rm youtube-dl{,.exe}
 
 %build
-#nothing to build
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_sysconfdir}
-install -p -m 755 %{SOURCE0} $RPM_BUILD_ROOT%{_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} $RPM_BUILD_ROOT%{_sysconfdir}
+install -p -m 755 youtube-dl $RPM_BUILD_ROOT%{_bindir}
+install -p -m 644 README.md $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 install -p -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 
 %clean
@@ -37,9 +40,17 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
-%config %{_sysconfdir}/%{name}.conf
+%config(noreplace) %{_sysconfdir}/%{name}.conf
+%doc %{_docdir}/%{name}-%{version}/README.md
 
 %changelog
+* Tue Oct 02 2012 Till Maas <opensource@till.name> - 2012.09.27-2
+- Use noreplace for config file
+
+* Tue Oct  2 2012 Tim Landscheidt <tim@tim-landscheidt.de> - 2012.09.27-1
+- Bump Python requirement to 2.6.
+- Update to new release and GitHub tarballs.
+
 * Sun Jul 22 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2012.02.27-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
