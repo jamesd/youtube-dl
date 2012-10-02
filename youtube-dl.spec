@@ -1,6 +1,6 @@
 Name:           youtube-dl
 Version:        2012.09.27
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
@@ -13,6 +13,7 @@ BuildArch:      noarch
 Requires:       python >= 2.6
 # Used in Makefile to generate youtube-dl
 BuildRequires:  zip
+BuildRequires:  python >= 2.6
 
 %description
 Small command-line program to download videos from YouTube.
@@ -46,6 +47,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc %{_docdir}/%{name}-%{version}/README.md
 
 %changelog
+* Tue Oct 02 2012 Till Maas <opensource@till.name> - 2012.09.27-3
+- Add BR: python >= 2.6
+
 * Tue Oct 02 2012 Till Maas <opensource@till.name> - 2012.09.27-2
 - Use noreplace for config file
 - Add BR: zip
