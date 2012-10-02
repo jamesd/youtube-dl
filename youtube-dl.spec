@@ -11,6 +11,8 @@ Source1:        %{name}.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 Requires:       python >= 2.6
+# Used in Makefile to generate youtube-dl
+BuildRequires:  zip
 
 %description
 Small command-line program to download videos from YouTube.
@@ -46,6 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Oct 02 2012 Till Maas <opensource@till.name> - 2012.09.27-2
 - Use noreplace for config file
+- Add BR: zip
 
 * Tue Oct  2 2012 Tim Landscheidt <tim@tim-landscheidt.de> - 2012.09.27-1
 - Bump Python requirement to 2.6.
