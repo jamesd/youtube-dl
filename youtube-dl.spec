@@ -1,6 +1,6 @@
 Name:           youtube-dl
-Version:        2012.09.27
-Release:        3%{?dist}
+Version:        2012.10.09
+Release:        1%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
@@ -8,11 +8,15 @@ License:        Public Domain
 URL:            http://rg3.github.com/youtube-dl/
 Source0:        https://github.com/rg3/%{name}/tarball/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
+Patch0:         youtube-dl-2012.10.09-DESTDIR.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 Requires:       python >= 2.6
 # Used in Makefile to generate youtube-dl
 BuildRequires:  zip
+# Used to generate manpage
+BuildRequires:  pandoc
 BuildRequires:  python >= 2.6
 
 %description
@@ -27,14 +31,16 @@ youtube.com.
 gzip -dc %{SOURCE0} | tar --strip-components=1 -xvvf -
 rm youtube-dl{,.exe}
 
+%patch0 -p1 -b .DESTDIR
+
+
 %build
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} $RPM_BUILD_ROOT%{_sysconfdir}
-install -p -m 755 youtube-dl $RPM_BUILD_ROOT%{_bindir}
-install -p -m 644 README.md $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+make install DESTDIR="$RPM_BUILD_ROOT" PREFIX="%{_prefix}" MANDIR="%{_mandir}"
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
 install -p -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 
 %clean
@@ -43,10 +49,16 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
+%{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
-%doc %{_docdir}/%{name}-%{version}/README.md
+%{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Tue Oct 23 2012 Till Maas <opensource@till.name> - 2012.10.09-1
+- Update to new release
+- Update BR: add pandoc
+- install make target
+
 * Tue Oct 02 2012 Till Maas <opensource@till.name> - 2012.09.27-3
 - Add BR: python >= 2.6
 
