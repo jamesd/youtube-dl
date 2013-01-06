@@ -8,7 +8,6 @@ License:        Public Domain
 URL:            http://rg3.github.com/youtube-dl/
 Source0:        https://github.com/rg3/%{name}/tarball/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
-# 2012-11-11: Merged by upstream: https://github.com/rg3/youtube-dl/pull/491#discussion_r1947076
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
