@@ -1,5 +1,5 @@
 Name:           youtube-dl
-Version:        2012.10.09
+Version:        2013.01.02
 Release:        1%{?dist}
 Summary:        Small command-line program to download videos from YouTube
 Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
@@ -55,6 +55,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Sun Jan 06 2013 Matěj Cepl <mcepl@redhat.com> - 2013.01.02-1
+- Update to new release (fix #880270)
+
 * Tue Oct 23 2012 Till Maas <opensource@till.name> - 2012.10.09-1
 - Update to new release
 - Update BR: add pandoc
