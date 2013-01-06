@@ -9,7 +9,6 @@ URL:            http://rg3.github.com/youtube-dl/
 Source0:        https://github.com/rg3/%{name}/tarball/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
 # 2012-11-11: Merged by upstream: https://github.com/rg3/youtube-dl/pull/491#discussion_r1947076
-Patch0:         youtube-dl-2012.10.09-DESTDIR.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -31,8 +30,6 @@ youtube.com.
 %setup -cqTn %{name}-%{version}
 gzip -dc %{SOURCE0} | tar --strip-components=1 -xvvf -
 rm youtube-dl{,.exe}
-
-%patch0 -p1 -b .DESTDIR
 
 
 %build
