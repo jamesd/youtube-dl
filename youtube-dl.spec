@@ -1,12 +1,11 @@
 Name:           youtube-dl
-Version:        2013.04.18
+Version:        2013.05.07
 Release:        1%{?dist}
 Summary:        Small command-line program to download videos from YouTube
-Summary(pl):    Tekstowy program do pobierania filmów z youtube.com
 Group:          Applications/Multimedia
 License:        Public Domain
-URL:            http://rg3.github.com/youtube-dl/
-Source0:        https://github.com/rg3/%{name}/tarball/%{version}/%{name}-%{version}.tar.gz
+URL:            http://youtube-dl.org
+Source0:        http://youtube-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -21,15 +20,9 @@ BuildRequires:  python >= 2.6
 %description
 Small command-line program to download videos from YouTube.
 
-%description -l pl
-youtube-dl to mały tekstowy program służący do pobierania filmów z
-youtube.com.
-
 %prep
 %setup -cqTn %{name}-%{version}
 gzip -dc %{SOURCE0} | tar --strip-components=1 -xvvf -
-rm youtube-dl{,.exe}
-
 
 %build
 make
@@ -45,12 +38,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
+%doc CHANGELOG LICENSE
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Wed May 08 2013 Christopher Meng <rpm@cicku.me> - 2013.05.07-1
+- Update to new release
+
 * Thu Apr 18 2013 Till Maas <opensource@till.name> - 2013.04.18-1
 - Update to new release
 
