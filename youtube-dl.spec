@@ -14,7 +14,7 @@ BuildRequires:  zip
 BuildRequires:  pandoc
 BuildRequires:  python
 #Tests
-BuildRequires:  python-nose
+#BuildRequires:  python-nose
 Requires:       python
 
 %description
@@ -35,7 +35,7 @@ mkdir -p %{buildroot}%{_sysconfdir}
 install -p -m644 %{S:1} %{buildroot}%{_sysconfdir}
 
 %check
-make test
+#make test
 
 %files
 %doc LICENSE
