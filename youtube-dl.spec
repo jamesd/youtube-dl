@@ -13,6 +13,8 @@ BuildRequires:  zip
 # Used to generate manpage
 BuildRequires:  pandoc
 BuildRequires:  python
+#Tests
+BuildRequires:  python-nose
 Requires:       python
 
 %description
