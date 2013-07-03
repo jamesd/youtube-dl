@@ -1,30 +1,30 @@
 Name:           youtube-dl
-Version:        2013.06.31
+Version:        2013.07.02
 Release:        1%{?dist}
-Summary:        A small command-line program to download videos from YouTube.com and other sites
+Summary:        A small command-line program to download online videos
 License:        Public Domain
 URL:            http://youtube-dl.org
 Source0:        http://youtube-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 # Used in Makefile to generate youtube-dl
 BuildRequires:  zip
 # Used to generate manpage
 BuildRequires:  pandoc
 BuildRequires:  python
+#Tests
+#BuildRequires:  python-nose
 Requires:       python
 
 %description
-Small command-line program to download videos from YouTube.
+Small command-line program to download videos from YouTube and other sites.
 
 %prep
-%setup -cqTn %{name}-%{version}
-gzip -dc %{SOURCE0} | tar --strip-components=1 -xvvf -
+%setup -qn %{name}
 
 %build
-make
+make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
@@ -37,12 +37,28 @@ rm -rf %{buildroot}
 
 %files
 %doc CHANGELOG LICENSE
+make install DESTDIR="%{buildroot}" \
+    PREFIX="%{_prefix}" \
+    MANDIR="%{_mandir}" \
+    PYTHON="%{_bindir}/python"
+mkdir -p %{buildroot}%{_sysconfdir}
+install -p -m644 %{S:1} %{buildroot}%{_sysconfdir}
+
+%check
+#make test
+
+%files
+%doc LICENSE
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Tue Jul 02 2013 Christopher Meng <rpm@cicku.me> - 2013.07.02-1
+- Update to new release.
+- SPEC cleanup.
+
 * Wed Jun 26 2013 Christopher Meng <rpm@cicku.me> - 2013.06.31-1
 - Update to new release.
 
