@@ -1,21 +1,18 @@
 Name:           youtube-dl
-Version:        2013.08.17
+Version:        2013.08.30
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
-URL:            http://youtube-dl.org
-Source0:        http://youtube-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
+URL:            https://yt-dl.org
+Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
-
-BuildArch:      noarch
-# Used in Makefile to generate youtube-dl
-BuildRequires:  zip
 # Used to generate manpage
 BuildRequires:  pandoc
 BuildRequires:  python
-#Tests
+# Tests failed because of no connection in Koji.
 #BuildRequires:  python-nose
 Requires:       python
+BuildArch:      noarch
 
 %description
 Small command-line program to download videos from YouTube and other sites.
@@ -27,25 +24,12 @@ Small command-line program to download videos from YouTube and other sites.
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR="%{buildroot}" PREFIX="%{_prefix}" MANDIR="%{_mandir}"
+make install DESTDIR=%{buildroot} \
+             PREFIX=%{_prefix} \
+             MANDIR=%{_mandir} \
+             PYTHON=%{_bindir}/python
 mkdir -p %{buildroot}%{_sysconfdir}
-install -p -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}
-
-%clean
-rm -rf %{buildroot}
-
-%files
-%doc CHANGELOG LICENSE
-make install DESTDIR="%{buildroot}" \
-    PREFIX="%{_prefix}" \
-    MANDIR="%{_mandir}" \
-    PYTHON="%{_bindir}/python"
-mkdir -p %{buildroot}%{_sysconfdir}
-install -p -m644 %{S:1} %{buildroot}%{_sysconfdir}
-
-%check
-#make test
+install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 
 %files
 %doc LICENSE
@@ -55,16 +39,13 @@ install -p -m644 %{S:1} %{buildroot}%{_sysconfdir}
 %{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Mon Sep 02 2013 Christopher Meng <rpm@cicku.me> - 2013.08.30-1
+- Update to new release.
+
 * Sun Aug 18 2013 Christopher Meng <rpm@cicku.me> - 2013.08.17-1
 - Update to new release.
 
 * Sat Aug 03 2013 Christopher Meng <rpm@cicku.me> - 2013.08.02-1
-- Update to new release.
-
-* Mon Jul 22 2013 Christopher Meng <rpm@cicku.me> - 2013.07.19-1
-- Update to new release.
-
-* Tue Jul 16 2013 Christopher Meng <rpm@cicku.me> - 2013.07.12-1
 - Update to new release.
 
 * Tue Jul 02 2013 Christopher Meng <rpm@cicku.me> - 2013.07.02-1
