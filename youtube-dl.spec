@@ -27,7 +27,7 @@ make %{?_smp_mflags}
 make install DESTDIR=%{buildroot} \
              PREFIX=%{_prefix} \
              MANDIR=%{_mandir} \
-             PYTHON=%{_bindir}/python
+             PYTHON=%{__python2}
 mkdir -p %{buildroot}%{_sysconfdir}
 install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 
@@ -35,7 +35,7 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 #make test
 
 %files
-%doc LICENSE
+%doc LICENSE README.md
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
