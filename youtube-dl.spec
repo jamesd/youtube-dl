@@ -7,7 +7,9 @@ URL:            https://yt-dl.org
 Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
 # Used to generate manpage
+%if %{_arch} == x86_64 || %{_arch} == i686
 BuildRequires:  pandoc
+%endif
 BuildRequires:  python
 # Tests failed because of no connection in Koji.
 #BuildRequires:  python-nose
