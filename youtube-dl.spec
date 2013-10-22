@@ -1,16 +1,14 @@
 Name:           youtube-dl
-Version:        2013.09.29
+Version:        2013.10.18.2
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
 URL:            https://yt-dl.org
 Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
-# Used to generate manpage
-BuildRequires:  pandoc
 BuildRequires:  python
 # Tests failed because of no connection in Koji.
-#BuildRequires:  python-nose
+# BuildRequires:  python-nose
 Requires:       python
 BuildArch:      noarch
 
@@ -39,6 +37,18 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 %{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Sun Oct 20 2013 Christopher Meng <rpm@cicku.me> - 2013.10.18.2-1
+- Update to new release(BZ#1020787).
+
+* Thu Oct 17 2013 Christopher Meng <rpm@cicku.me> - 2013.10.17-1
+- Update to new release(BZ#1019694).
+
+* Thu Oct 10 2013 Christopher Meng <rpm@cicku.me> - 2013.10.09-1
+- Update to new release(BZ#1017630).
+
+* Mon Oct 07 2013 Christopher Meng <rpm@cicku.me> - 2013.10.07-1
+- Update to new release(BZ#1014266).
+
 * Mon Sep 30 2013 Christopher Meng <rpm@cicku.me> - 2013.09.29-1
 - Update to new release(BZ#1013394).
 
