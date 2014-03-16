@@ -1,5 +1,5 @@
 Name:           youtube-dl
-Version:        2013.12.17.2
+Version:        2014.03.12
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
@@ -37,6 +37,42 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 %{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Mon Mar 17 2014 Matěj Cepl <mcepl@redhat.com> - 2014.03.12-1
+- Update to 2014.03.12
+
+* Sat Mar 08 2014 Christopher Meng <rpm@cicku.me> - 2014.03.07.1-1
+- Update to 2014.03.07.1
+
+* Tue Feb 25 2014 Christopher Meng <rpm@cicku.me> - 2014.02.25-1
+- Update to 2014.02.25
+
+* Thu Feb 20 2014 Christopher Meng <rpm@cicku.me> - 2014.02.19.1-1
+- Update to 2014.02.19.1
+
+* Tue Feb 11 2014 Christopher Meng <rpm@cicku.me> - 2014.02.10-1
+- Update to 2014.02.10
+
+* Fri Feb 07 2014 Christopher Meng <rpm@cicku.me> - 2014.02.06.3-1
+- Update to 2014.02.06.3
+
+* Thu Jan 23 2014 Christopher Meng <rpm@cicku.me> - 2014.01.23-1
+- Update to 2014.01.23
+
+* Mon Jan 20 2014 Christopher Meng <rpm@cicku.me> - 2014.01.17.2-1
+- Update to 2014.01.17.2
+
+* Thu Jan 09 2014 Christopher Meng <rpm@cicku.me> - 2014.01.08-1
+- Update to 2014.01.08
+
+* Sat Jan 04 2014 Christopher Meng <rpm@cicku.me> - 2014.01.03-1
+- Update to 2014.01.03
+
+* Fri Dec 27 2013 Christopher Meng <rpm@cicku.me> - 2013.12.26-1
+- Update to 2013.12.26
+
+* Sun Dec 22 2013 Christopher Meng <rpm@cicku.me> - 2013.12.20-1
+- Update to 2013.12.20
+
 * Thu Dec 19 2013 Christopher Meng <rpm@cicku.me> - 2013.12.17.2-1
 - Update to 2013.12.17.2
 
