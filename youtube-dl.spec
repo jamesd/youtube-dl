@@ -1,6 +1,6 @@
 Name:           youtube-dl
 Version:        2014.05.05
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
 URL:            https://yt-dl.org
@@ -40,6 +40,9 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 %{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2014.05.05-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Mon May 06 2014 Christopher Meng <rpm@cicku.me> - 2014.05.05-1
 - Update to 2014.05.05
 
