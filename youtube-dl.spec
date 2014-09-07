@@ -1,11 +1,13 @@
 Name:           youtube-dl
-Version:        2014.08.29
+Version:        2014.09.06
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
 URL:            https://yt-dl.org
 Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}.conf
+Source2:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz.sig
+# 2014-09-07: Signature made by 7D33 D762 FD6C 3513 0481  347F DB4B 54CB A482 6A18
 BuildRequires:  python2
 # Tests failed because of no connection in Koji.
 # BuildRequires:  python-nose
@@ -39,6 +41,10 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 %{_sysconfdir}/bash_completion.d/%{name}
 
 %changelog
+* Sun Sep 07 2014 Till Maas <opensource@till.name> - 2014.09.06-1
+- Update to 2014-09-06
+- Add GPG signature
+
 * Sun Aug 31 2014 Till Maas <opensource@till.name> - 2014.08.29-1
 - Update to 2014.08.29
 
