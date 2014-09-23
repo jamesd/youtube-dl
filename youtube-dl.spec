@@ -1,5 +1,5 @@
 Name:           youtube-dl
-Version:        2014.09.06
+Version:        2014.09.22.1
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
@@ -39,8 +39,13 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/bash_completion.d/%{name}
+%exclude %{_sysconfdir}/fish/completions/youtube-dl.fish
 
 %changelog
+* Tue Sep 23 2014 Till Maas <opensource@till.name> - 2014.09.22.1-1
+- Update to latest release
+- Exclude fish completion script
+
 * Sun Sep 07 2014 Till Maas <opensource@till.name> - 2014.09.06-1
 - Update to 2014-09-06
 - Add GPG signature
