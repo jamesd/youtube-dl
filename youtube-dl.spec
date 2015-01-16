@@ -1,21 +1,26 @@
 Name:           youtube-dl
-Version:        2014.07.20.2
+Version:        2015.01.15.1
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
 URL:            https://yt-dl.org
 Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
-Source1:        %{name}.conf
+Source1:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz.sig
+Source2:        gpgkey-7D33D762FD6C35130481347FDB4B54CBA4826A18.gpg
+Source3:        %{name}.conf
 BuildRequires:  python2
 # Tests failed because of no connection in Koji.
 # BuildRequires:  python-nose
 Requires:       python
 BuildArch:      noarch
+# For source verification with gpgv
+BuildRequires:  gpg
 
 %description
 Small command-line program to download videos from YouTube and other sites.
 
 %prep
+gpgv --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -qn %{name}
 
 %build
@@ -27,7 +32,7 @@ make install DESTDIR=%{buildroot} \
              MANDIR=%{_mandir} \
              PYTHON=%{__python}
 mkdir -p %{buildroot}%{_sysconfdir}
-install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
+install -pm644 %{S:3} %{buildroot}%{_sysconfdir}
 
 %files
 %doc LICENSE README.md
@@ -35,13 +40,55 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/bash_completion.d/%{name}
+%exclude %{_sysconfdir}/fish/completions/youtube-dl.fish
+%{_datadir}/zsh/site-functions/_youtube-dl
 
 %changelog
+* Fri Jan 16 2015 Matej Cepl <mcepl@redhat.com> - 2015.01.15.1-1
+- Update to new release.
+
+* Wed Jan 14 2015 Till Maas <opensource@till.name> - 2015.01.11-1
+- Update to new release
+
+* Sat Dec 13 2014 Till Maas <opensource@till.name> - 2014.12.10.3-1
+- Update to new release
+
+* Thu Nov 13 2014 Jon Ciesla <limburgher@gmail.com> - 2014.11.13-1
+- Update to latest release.
+
+* Mon Nov 03 2014 Till Maas <opensource@till.name> - 2014.11.02.1-1
+- Update to latest release
+- Add zsh completion file
+- Add GPG key verification
+
+* Tue Sep 23 2014 Till Maas <opensource@till.name> - 2014.09.22.1-1
+- Update to latest release
+- Exclude fish completion script
+
+* Sun Sep 07 2014 Till Maas <opensource@till.name> - 2014.09.06-1
+- Update to 2014-09-06
+- Add GPG signature
+
+* Sun Aug 31 2014 Till Maas <opensource@till.name> - 2014.08.29-1
+- Update to 2014.08.29
+
+* Tue Jul 29 2014 Christopher Meng <rpm@cicku.me> - 2014.07.25.1-1
+- Update to 2014.07.25.1
+
 * Mon Jul 21 2014 Matěj Cepl <mcepl@redhat.com> - 2014.07.20.2-1
 - Update to 2014.07.20.2
 
 * Sat Jul 12 2014 Christopher Meng <rpm@cicku.me> - 2014.07.11.3-1
 - Update to 2014.07.11.3
+
+* Tue Jun 24 2014 Christopher Meng <rpm@cicku.me> - 2014.06.24.1-1
+- Update to 2014.06.24.1
+
+* Mon Jun 09 2014 Christopher Meng <rpm@cicku.me> - 2014.06.07-1
+- Update to 2014.06.07
+
+* Tue May 06 2014 Christopher Meng <rpm@cicku.me> - 2014.05.05-1
+- Update to 2014.05.05
 
 * Fri Apr 11 2014 Christopher Meng <rpm@cicku.me> - 2014.04.11.1-1
 - Update to 2014.04.11.1
@@ -172,8 +219,6 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 * Mon Sep 02 2013 Christopher Meng <rpm@cicku.me> - 2013.08.30-1
 - Update to 2013.08.30
 
-<<<<<<< HEAD
-=======
 * Fri Aug 30 2013 Christopher Meng <rpm@cicku.me> - 2013.08.29-1
 - Update to 2013.08.29
 
@@ -183,21 +228,15 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 * Sat Aug 24 2013 Christopher Meng <rpm@cicku.me> - 2013.08.23-1
 - Update to 2013.08.23
 
->>>>>>> master
 * Sun Aug 18 2013 Christopher Meng <rpm@cicku.me> - 2013.08.17-1
 - Update to 2013.08.17
 
-<<<<<<< HEAD
-=======
 * Tue Aug 13 2013 Christopher Meng <rpm@cicku.me> - 2013.08.09-1
 - Update to 2013.08.09
 
->>>>>>> master
 * Sat Aug 03 2013 Christopher Meng <rpm@cicku.me> - 2013.08.02-1
 - Update to 2013.08.02
 
-<<<<<<< HEAD
-=======
 * Mon Jul 22 2013 Christopher Meng <rpm@cicku.me> - 2013.07.25.2-1
 - Update to 2013.07.25.2
 
@@ -213,7 +252,6 @@ install -pm644 %{S:1} %{buildroot}%{_sysconfdir}
 * Thu Jul 11 2013 Christopher Meng <rpm@cicku.me> - 2013.07.10-1
 - Update to 2013.07.10
 
->>>>>>> master
 * Tue Jul 02 2013 Christopher Meng <rpm@cicku.me> - 2013.07.02-1
 - Update to 2013.07.02
 - SPEC cleanup.
