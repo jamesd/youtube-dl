@@ -1,5 +1,5 @@
 Name:           youtube-dl
-Version:        2015.01.30.2
+Version:        2015.02.10.2
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
@@ -21,6 +21,9 @@ Small command-line program to download videos from YouTube and other sites.
 %prep
 gpgv --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -qn %{name}
+
+# remove pre-built file
+rm youtube-dl
 
 cp -a setup.py setup.py.installpath
 # Remove files that are installed to the wrong path
@@ -56,6 +59,10 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 %{python_sitelib}/youtube_dl*.egg-info
 
 %changelog
+* Tue Feb 10 2015 Till Maas <opensource@till.name> - 2015.02.10.2-1
+- Update to latest release
+- remove pre-built file in %%setup
+
 * Sat Jan 31 2015 Till Maas <opensource@till.name> - 2015.01.30.1-1
 - Update to new release
 - Use %%license
