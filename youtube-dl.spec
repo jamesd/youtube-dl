@@ -1,5 +1,5 @@
 Name:           youtube-dl
-Version:        2015.02.10.4
+Version:        2015.02.11
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
@@ -59,6 +59,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 %{python_sitelib}/youtube_dl*.egg-info
 
 %changelog
+* Mon Feb 16 2015 Matej Cepl <mcepl@redhat.com> - 2015.02.11-1
+- Show must go on!
+
 * Tue Feb 10 2015 Till Maas <opensource@till.name> - 2015.02.10.4-1
 - Update to latest release
 
