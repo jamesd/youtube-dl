@@ -1,5 +1,5 @@
 Name:           youtube-dl
-Version:        2015.04.03
+Version:        2015.04.28
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
@@ -15,8 +15,10 @@ BuildArch:      noarch
 # For source verification with gpgv
 BuildRequires:  gpg
 
+
 %description
 Small command-line program to download videos from YouTube and other sites.
+
 
 %prep
 gpgv --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
@@ -31,8 +33,10 @@ sed -i '/youtube-dl.bash-completion/d' setup.py
 sed -i '/youtube-dl.fish/d' setup.py
 sed -i '/README.txt/d' setup.py
 
+
 %build
 %{__python2} setup.py build
+
 
 %install
 %{__python2} setup.py install --root=%{buildroot}
@@ -44,8 +48,10 @@ install -pm644 youtube-dl.bash-completion %{buildroot}%{_sysconfdir}/bash_comple
 mkdir -p %{buildroot}%{_datadir}/zsh/site-functions/
 install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtube-dl
 
+
 %check
 #make test
+
 
 %files
 %doc README.md
@@ -58,7 +64,11 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 %{python_sitelib}/youtube_dl/
 %{python_sitelib}/youtube_dl*.egg-info
 
+
 %changelog
+* Wed Apr 29 2015 Matej Cepl <mcepl@redhat.com> - 2015.04.28-1
+- Update to the latest release (#1210132)
+
 * Sat Apr 04 2015 Matej Cepl <mcepl@redhat.com> - 2015.04.03-1
 - Update to the latest release (#1205700)
 
