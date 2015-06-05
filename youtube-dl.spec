@@ -1,8 +1,15 @@
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{!?__python2: %global __python2 /usr/bin/python2}
+%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
+%{!?__python2: %global __python2 /usr/bin/python2}
+%endif
+
 Name:           youtube-dl
 Version:        2015.06.04.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
-License:        Public Domain
+License:        Unlicense
 URL:            https://yt-dl.org
 Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz.sig
@@ -55,7 +62,11 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 %files
 %doc README.md
+%if 0%{?fedora} && 0%{?fedora} > 20
 %license LICENSE
+%else
+%doc LICENSE
+%endif
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
@@ -66,6 +77,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Fri Jun 05 2015 Matej Cepl <mcepl@redhat.com> - 2015.06.04.1-2
+- Fix the License: field to Unlicense.
+
 * Fri Jun 05 2015 Matej Cepl <mcepl@redhat.com> - 2015.06.04.1-1
 - Update to the latest release (#1222017)
 
