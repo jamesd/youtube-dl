@@ -1,5 +1,5 @@
 Name:           youtube-dl
-Version:        2015.01.15.1
+Version:        2015.06.04.1
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Public Domain
@@ -8,47 +8,114 @@ Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz.sig
 Source2:        gpgkey-7D33D762FD6C35130481347FDB4B54CBA4826A18.gpg
 Source3:        %{name}.conf
-BuildRequires:  python2
+BuildRequires:  python-devel
 # Tests failed because of no connection in Koji.
 # BuildRequires:  python-nose
-Requires:       python
 BuildArch:      noarch
 # For source verification with gpgv
 BuildRequires:  gpg
 
+
 %description
 Small command-line program to download videos from YouTube and other sites.
+
 
 %prep
 gpgv --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -qn %{name}
 
+# remove pre-built file
+rm youtube-dl
+
+cp -a setup.py setup.py.installpath
+# Remove files that are installed to the wrong path
+sed -i '/youtube-dl.bash-completion/d' setup.py
+sed -i '/youtube-dl.fish/d' setup.py
+sed -i '/README.txt/d' setup.py
+
+
 %build
-make %{?_smp_mflags}
+%{__python2} setup.py build
+
 
 %install
-make install DESTDIR=%{buildroot} \
-             PREFIX=%{_prefix} \
-             MANDIR=%{_mandir} \
-             PYTHON=%{__python}
+%{__python2} setup.py install --root=%{buildroot}
+
 mkdir -p %{buildroot}%{_sysconfdir}
 install -pm644 %{S:3} %{buildroot}%{_sysconfdir}
+mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d/
+install -pm644 youtube-dl.bash-completion %{buildroot}%{_sysconfdir}/bash_completion.d/youtube-dl
+mkdir -p %{buildroot}%{_datadir}/zsh/site-functions/
+install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtube-dl
+
+
+%check
+#make test
+
 
 %files
-%doc LICENSE README.md
+%doc README.md
+%license LICENSE
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/bash_completion.d/%{name}
-%exclude %{_sysconfdir}/fish/completions/youtube-dl.fish
 %{_datadir}/zsh/site-functions/_youtube-dl
+%{python_sitelib}/youtube_dl/
+%{python_sitelib}/youtube_dl*.egg-info
+
 
 %changelog
+* Fri Jun 05 2015 Matej Cepl <mcepl@redhat.com> - 2015.06.04.1-1
+- Update to the latest release (#1222017)
+
+* Fri May 15 2015 Matej Cepl <mcepl@redhat.com> - 2015.05.10-1
+- Update to the latest release (#1218015, 1200569, 1206484)
+
+* Wed Apr 29 2015 Matej Cepl <mcepl@redhat.com> - 2015.04.28-1
+- Update to the latest release (#1210132)
+
+* Sat Apr 04 2015 Matej Cepl <mcepl@redhat.com> - 2015.04.03-1
+- Update to the latest release (#1205700)
+
+* Thu Mar 19 2015 Matej Cepl <mcepl@redhat.com> - 2015.03.18-1
+- Update to latest release (# 1201585)
+
+* Thu Mar 05 2015 Matej Cepl <mcepl@redhat.com> - 2015.03.03.1-1
+- Update to latest release (# 1195539, 1195779)
+
+* Sun Feb 22 2015 Matej Cepl <mcepl@redhat.com> - 2015.02.21-1
+- Update to latest release
+
+* Wed Feb 18 2015 Matej Cepl <mcepl@redhat.com> - 2015.02.18.1-1
+- Update to latest release
+
+* Mon Feb 16 2015 Matej Cepl <mcepl@redhat.com> - 2015.02.11-1
+- Show must go on!
+
+* Tue Feb 10 2015 Till Maas <opensource@till.name> - 2015.02.10.4-1
+- Update to latest release
+
+* Tue Feb 10 2015 Till Maas <opensource@till.name> - 2015.02.10.2-1
+- Update to latest release
+- remove pre-built file in %%setup
+
+* Sat Jan 31 2015 Till Maas <opensource@till.name> - 2015.01.30.1-1
+- Update to new release
+- Use %%license
+
+* Tue Jan 27 2015 Till Maas <opensource@till.name> - 2015.01.25-1
+- Update to new release
+
+* Tue Jan 27 2015 Alexey Kurov <nucleo@fedoraproject.org> - 2015.01.25.1-1
+- Python 2.7 byte compile
+
 * Fri Jan 16 2015 Matej Cepl <mcepl@redhat.com> - 2015.01.15.1-1
 - Update to new release.
 
 * Wed Jan 14 2015 Till Maas <opensource@till.name> - 2015.01.11-1
 - Update to new release
+
 
 * Sat Dec 13 2014 Till Maas <opensource@till.name> - 2014.12.10.3-1
 - Update to new release
