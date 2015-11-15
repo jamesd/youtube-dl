@@ -7,7 +7,7 @@
 
 Name:           youtube-dl
 Version:        2015.11.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -15,7 +15,11 @@ Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz.sig
 Source2:        gpgkey-7D33D762FD6C35130481347FDB4B54CBA4826A18.gpg
 Source3:        %{name}.conf
-BuildRequires:  python-devel
+%if 0%{?fedora}
+BuildRequires:  python3-devel
+%else
+BuildRequires:  python2-devel
+%endif
 # Tests failed because of no connection in Koji.
 # BuildRequires:  python-nose
 BuildArch:      noarch
@@ -42,11 +46,19 @@ sed -i '/README.txt/d' setup.py
 
 
 %build
-%{__python2} setup.py build
+%if 0%{?fedora}
+%{__python3} setup.py build
+%else
+%{__python2} setup.py install --root=%{buildroot}
+%endif
 
 
 %install
+%if 0%{?fedora}
+%{__python3} setup.py install --root=%{buildroot}
+%else
 %{__python2} setup.py install --root=%{buildroot}
+%endif
 
 mkdir -p %{buildroot}%{_sysconfdir}
 install -pm644 %{S:3} %{buildroot}%{_sysconfdir}
@@ -62,21 +74,26 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 %files
 %doc README.md
-%if 0%{?fedora} && 0%{?fedora} > 20
-%license LICENSE
+%{!?_licensedir:%global license %%doc}
+%if 0%{?fedora}
+%{python3_sitelib}/youtube_dl/
+%{python3_sitelib}/youtube_dl*.egg-info
 %else
-%doc LICENSE
+%{python2_sitelib}/youtube_dl/
+%{python2_sitelib}/youtube_dl*.egg-info
 %endif
+%license LICENSE
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/bash_completion.d/%{name}
 %{_datadir}/zsh/site-functions/_youtube-dl
-%{python_sitelib}/youtube_dl/
-%{python_sitelib}/youtube_dl*.egg-info
 
 
 %changelog
+* Sun Nov 15 2015 Till Maas <opensource@till.name> - 2015.11.13-2
+- Use python3 on Fedora (#1282086)
+
 * Fri Nov 13 2015 Till Maas <opensource@till.name> - 2015.11.13-1
 - Update to new release
 
