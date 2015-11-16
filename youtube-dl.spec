@@ -6,8 +6,8 @@
 %endif
 
 Name:           youtube-dl
-Version:        2015.11.13
-Release:        2%{?dist}
+Version:        2015.11.15
+Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -91,6 +91,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Mon Nov 16 2015 Matěj Cepl <mcepl@redhat.com> - 2015.11.15-1
+- Update to new release.
+
 * Sun Nov 15 2015 Till Maas <opensource@till.name> - 2015.11.13-2
 - Use python3 on Fedora (#1282086)
 
