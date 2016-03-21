@@ -7,7 +7,7 @@
 
 Name:           youtube-dl
 Version:        2016.03.06
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -24,7 +24,7 @@ BuildRequires:  python2-devel
 # BuildRequires:  python-nose
 BuildArch:      noarch
 # For source verification with gpgv
-BuildRequires:  gpg
+BuildRequires:  gpg2
 
 
 %description
@@ -32,7 +32,7 @@ Small command-line program to download videos from YouTube and other sites.
 
 
 %prep
-gpgv --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
+gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -qn %{name}
 
 # remove pre-built file
@@ -91,6 +91,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Mon Mar 21 2016 Till Maas <opensource@till.name> - 2016.03.06-2
+- Use gpgv2 for source verification
+
 * Thu Mar 10 2016 Matěj Cepl <mcepl@redhat.com> - 2016.03.06-1
 - Update to latest release.
 
