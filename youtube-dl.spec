@@ -6,8 +6,8 @@
 %endif
 
 Name:           youtube-dl
-Version:        2016.04.13
-Release:        2%{?dist}
+Version:        2016.05.01
+Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -91,6 +91,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Wed May  4 2016 Matěj Cepl <mcepl@redhat.com> - 2016.05.01-1
+- Update to the latest release.
+
 * Fri Apr 15 2016 Till Maas <opensource@till.name> - 2016.04.13-2
 - Fix build deps
 
