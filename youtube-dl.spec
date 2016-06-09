@@ -13,7 +13,12 @@ License:        Unlicense
 URL:            https://yt-dl.org
 Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
 Source1:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz.sig
-Source2:        gpgkey-7D33D762FD6C35130481347FDB4B54CBA4826A18.gpg
+# 2016-06-09:
+# Merged GPG keys from https://rg3.github.io/youtube-dl/download.html in one file
+# gpg --export  --export-options export-minimal "428D F5D6 3EF0 7494 BB45 5AC0 EBF0 1804 BCF0 5F6B" \
+# "ED7F 5BF4 6B3B BED8 1C87 368E 2C39 3E0F 18A9 236D" \
+# "7D33 D762 FD6C 3513 0481 347F DB4B 54CB A482 6A18" > youtube-dl-gpgkeys.gpg
+Source2:        youtube-dl-gpgkeys.gpg
 Source3:        %{name}.conf
 %if 0%{?fedora}
 BuildRequires:  python3-devel
@@ -93,6 +98,7 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 %changelog
 * Thu May 19 2016 Matěj Cepl <mcepl@redhat.com> 2016.05.16-1
 - Update to the latest upstream release.
+- Update upstream GPG keys
 
 * Wed May  4 2016 Matěj Cepl <mcepl@redhat.com> - 2016.05.01-1
 - Update to the latest release.
