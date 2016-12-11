@@ -6,13 +6,13 @@
 %endif
 
 Name:           youtube-dl
-Version:        2016.11.22
+Version:        2016.12.09
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
 Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
-Source1:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz.sig
+Source1:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz.sig
 # 2016-06-09:
 # Merged GPG keys from https://rg3.github.io/youtube-dl/download.html in one file
 # gpg --export  --export-options export-minimal "428D F5D6 3EF0 7494 BB45 5AC0 EBF0 1804 BCF0 5F6B" \
