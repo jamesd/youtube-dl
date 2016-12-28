@@ -6,8 +6,13 @@
 %endif
 
 Name:           youtube-dl
+<<<<<<< d570a9603dd215aaa30c31a5dccb35ad277862a5
 Version:        2016.12.09
 Release:        2%{?dist}
+=======
+Version:        2016.12.22
+Release:        1%{?dist}
+>>>>>>> Update to latest upstream release
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -106,6 +111,9 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %changelog
+* Wed Dec 28 2016 Matěj Cepl <mcepl@redhat.com> - 2016.12.22-1
+- Update to latest upstream release
+
 * Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 2016.12.09-2
 - Rebuild for Python 3.6
 
