@@ -6,8 +6,8 @@
 %endif
 
 Name:           youtube-dl
-Version:        2017.01.31
-Release:        2%{?dist}
+Version:        2017.02.16
+Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
