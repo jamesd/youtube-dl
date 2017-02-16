@@ -106,6 +106,9 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %changelog
+* Thu Feb 16 2017 Matěj Cepl <mcepl@redhat.com> - 2017.02.16-1
+- Update to the new release.
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2017.01.31-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
