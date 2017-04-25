@@ -6,7 +6,7 @@
 %endif
 
 Name:           youtube-dl
-Version:        2017.04.09
+Version:        2017.04.17
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
@@ -81,7 +81,11 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %check
-#make offlinetest
+# This basically cannot work without massive .flake8rc
+# starts with flake8 and of course no contributors bothered to make
+# their code truly PEP8 compliant.
+#
+# make offlinetest
 
 
 %files
@@ -106,6 +110,9 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %changelog
+* Tue Apr 25 2017 Matěj Cepl <mcepl@redhat.com> - 2017.04.17-1
+- Update to the latest release.
+
 * Mon Apr 10 2017 Matěj Cepl <mcepl@redhat.com> - 2017.04.09-1
 - Update to the latest release.
 
