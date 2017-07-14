@@ -6,7 +6,7 @@
 %endif
 
 Name:           youtube-dl
-Version:        2017.06.25
+Version:        2017.07.09
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
@@ -110,6 +110,9 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %changelog
+* Fri Jul 14 2017 Matěj Cepl <mcepl@redhat.com> - 2017.07.09-1
+- Update to latest release.
+
 * Wed Jun 28 2017 Matěj Cepl <mcepl@redhat.com> - 2017.06.25-1
 - Update to latest release.
 
