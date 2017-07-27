@@ -7,7 +7,7 @@
 
 Name:           youtube-dl
 Version:        2017.07.09
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -110,6 +110,9 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %changelog
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2017.07.09-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Fri Jul 14 2017 Matěj Cepl <mcepl@redhat.com> - 2017.07.09-1
 - Update to latest release.
 
