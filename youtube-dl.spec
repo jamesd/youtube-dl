@@ -7,12 +7,12 @@
 
 Name:           youtube-dl
 Version:        2017.08.23
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
-Source0:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz
-Source1:        https://yt-dl.org/downloads/%{version}/%{name}-%{version}.tar.gz.sig
+Source0:        https://github.com/rg3/youtube-dl/releases/download/%{version}/youtube-dl-%{version}.tar.gz
+Source1:        https://github.com/rg3/youtube-dl/releases/download/%{version}/youtube-dl-%{version}.tar.gz.sig
 # 2016-06-09:
 # Merged GPG keys from https://rg3.github.io/youtube-dl/download.html in one file
 # gpg --export  --export-options export-minimal "428D F5D6 3EF0 7494 BB45 5AC0 EBF0 1804 BCF0 5F6B" \
@@ -110,6 +110,9 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %changelog
+* Thu Aug 31 2017 Till Maas <opensource@till.name> - 2017.08.23-2
+- Manually follow redirect for source URLs to please rpmlint (#1414964)
+
 * Fri Aug 25 2017 Matěj Cepl <mcepl@redhat.com> - 2017.08.23-1
 - Update to latest release.
 
