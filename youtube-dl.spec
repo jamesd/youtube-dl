@@ -6,8 +6,8 @@
 %endif
 
 Name:           youtube-dl
-Version:        2017.08.23
-Release:        2%{?dist}
+Version:        2017.09.02
+Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -110,6 +110,9 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %changelog
+* Sat Sep 02 2017 Matěj Cepl <mcepl@redhat.com> - 2017.09.02-1
+- Update to latest release.
+
 * Thu Aug 31 2017 Till Maas <opensource@till.name> - 2017.08.23-2
 - Manually follow redirect for source URLs to please rpmlint (#1414964)
 
