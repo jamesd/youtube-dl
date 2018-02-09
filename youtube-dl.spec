@@ -7,7 +7,7 @@
 
 Name:           youtube-dl
 Version:        2018.02.08
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -49,6 +49,8 @@ sed -i '/youtube-dl.bash-completion/d' setup.py
 sed -i '/youtube-dl.fish/d' setup.py
 sed -i '/README.txt/d' setup.py
 
+# Remove interpreter shebang from module files.
+find youtube_dl -type f -exec sed -i -e '1{/^\#!\/usr\/bin\/env python$/d;};' {} +
 
 %build
 %if 0%{?fedora}
@@ -76,8 +78,6 @@ install -pm644 youtube-dl.bash-completion %{buildroot}%{_sysconfdir}/bash_comple
 %endif
 mkdir -p %{buildroot}%{_datadir}/zsh/site-functions/
 install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtube-dl
-# Remove interpreter from module files
-find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr\/bin\/env python/d'
 
 
 %check
@@ -110,6 +110,9 @@ find %{buildroot}%{_prefix}/lib -type f -print0 | xargs -0 sed -i -e '/^\#!\/usr
 
 
 %changelog
+* Fri Feb 09 2018 Matěj Cepl <mcepl@redhat.com> - 2018.02.08-2
+- Remove hardcoded-library-path (#1539993)
+
 * Fri Feb 09 2018 Matěj Cepl <mcepl@redhat.com> - 2018.02.08-1
 - Update to the latest release.
 
