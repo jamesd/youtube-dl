@@ -6,8 +6,8 @@
 %endif
 
 Name:           youtube-dl
-Version:        2018.02.08
-Release:        2%{?dist}
+Version:        2018.02.26
+Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -110,6 +110,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Tue Feb 27 2018 Matěj Cepl <mcepl@redhat.com> - 2018.02.26-1
+- Update to the latest release.
+
 * Fri Feb 09 2018 Matěj Cepl <mcepl@redhat.com> - 2018.02.08-2
 - Remove hardcoded-library-path (#1539993)
 
