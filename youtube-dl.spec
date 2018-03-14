@@ -6,7 +6,7 @@
 %endif
 
 Name:           youtube-dl
-Version:        2018.02.26
+Version:        2018.03.10
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
@@ -110,6 +110,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Wed Mar 14 2018 Matěj Cepl <mcepl@redhat.com> - 2018.03.10-1
+- Update to the latest release.
+
 * Tue Feb 27 2018 Matěj Cepl <mcepl@redhat.com> - 2018.02.26-1
 - Update to the latest release.
 
