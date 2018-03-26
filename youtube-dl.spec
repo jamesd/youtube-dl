@@ -1,4 +1,10 @@
-%if 0%{?rhel} && 0%{?rhel} <= 6
+%if 0%{?rhel} && 0%{?rhel} < 7
+%bcond_with python3
+%else
+%bcond_without python3
+%endif
+
+%if ! %{with python3}
 %{!?__python2: %global __python2 /usr/bin/python2}
 %{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 %{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
@@ -6,7 +12,7 @@
 %endif
 
 Name:           youtube-dl
-Version:        2018.03.10
+Version:        2018.03.26.1
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
@@ -20,8 +26,8 @@ Source1:        https://github.com/rg3/youtube-dl/releases/download/%{version}/y
 # "7D33 D762 FD6C 3513 0481 347F DB4B 54CB A482 6A18" > youtube-dl-gpgkeys.gpg
 Source2:        youtube-dl-gpgkeys.gpg
 Source3:        %{name}.conf
-%if 0%{?fedora}
-BuildRequires:  python3-devel
+%if %{with python3}
+BuildRequires:  python%{python3_pkgversion}-devel
 %else
 BuildRequires:  python2-devel
 %endif
@@ -53,7 +59,7 @@ sed -i '/README.txt/d' setup.py
 find youtube_dl -type f -exec sed -i -e '1{/^\#!\/usr\/bin\/env python$/d;};' {} +
 
 %build
-%if 0%{?fedora}
+%if %{with python3}
 %py3_build
 %else
 %py2_build
@@ -61,7 +67,7 @@ find youtube_dl -type f -exec sed -i -e '1{/^\#!\/usr\/bin\/env python$/d;};' {}
 
 
 %install
-%if 0%{?fedora}
+%if %{with python3}
 %py3_install
 %else
 %py2_install
@@ -69,7 +75,7 @@ find youtube_dl -type f -exec sed -i -e '1{/^\#!\/usr\/bin\/env python$/d;};' {}
 
 mkdir -p %{buildroot}%{_sysconfdir}
 install -pm644 %{S:3} %{buildroot}%{_sysconfdir}
-%if 0%{?fedora}
+%if %{with python3}
 mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
 install -pm644 youtube-dl.bash-completion %{buildroot}%{_datadir}/bash-completion/completions/youtube-dl
 %else
@@ -90,7 +96,7 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 %files
 %doc README.md
-%if 0%{?fedora}
+%if %{with python3}
 %{python3_sitelib}/youtube_dl/
 %{python3_sitelib}/youtube_dl*.egg-info
 %else
@@ -101,7 +107,7 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
-%if 0%{?fedora}
+%if %{with python3}
 %{_datadir}/bash-completion/completions/%{name}
 %else
 %{_sysconfdir}/bash_completion.d/%{name}
@@ -110,6 +116,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Mon Mar 26 2018 Matěj Cepl <mcepl@redhat.com> - 2018.03.26.1-1
+- Use Python 3 for EPEL-7.
+
 * Wed Mar 14 2018 Matěj Cepl <mcepl@redhat.com> - 2018.03.10-1
 - Update to the latest release.
 
