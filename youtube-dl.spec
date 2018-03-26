@@ -75,7 +75,7 @@ find youtube_dl -type f -exec sed -i -e '1{/^\#!\/usr\/bin\/env python$/d;};' {}
 
 mkdir -p %{buildroot}%{_sysconfdir}
 install -pm644 %{S:3} %{buildroot}%{_sysconfdir}
-%if %{with python3}
+%if 0%{?fedora}
 mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
 install -pm644 youtube-dl.bash-completion %{buildroot}%{_datadir}/bash-completion/completions/youtube-dl
 %else
@@ -107,7 +107,7 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
-%if %{with python3}
+%if 0%{?fedora}
 %{_datadir}/bash-completion/completions/%{name}
 %else
 %{_sysconfdir}/bash_completion.d/%{name}
