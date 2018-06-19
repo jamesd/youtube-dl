@@ -13,7 +13,7 @@
 
 Name:           youtube-dl
 Version:        2018.05.18
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -116,6 +116,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 2018.05.18-2
+- Rebuilt for Python 3.7
+
 * Fri May 25 2018 Matěj Cepl <mcepl@redhat.com> - 2018.05.18-1
 - Update to the latest release.
 
