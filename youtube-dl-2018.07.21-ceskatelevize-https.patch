@@ -1,0 +1,23 @@
+From fda2aa630318c5b7a384f9059aefdb535c7bf788 Mon Sep 17 00:00:00 2001
+From: bato3 <bato3@bandyci.org>
+Date: Wed, 18 Jul 2018 02:07:36 +0200
+Subject: [PATCH] Fixes #16997 now require https (and probably:
+ --no-check-certificate)
+
+---
+ youtube_dl/extractor/ceskatelevize.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/youtube_dl/extractor/ceskatelevize.py b/youtube_dl/extractor/ceskatelevize.py
+index 6bad908595e..46380430f9d 100644
+--- a/youtube_dl/extractor/ceskatelevize.py
++++ b/youtube_dl/extractor/ceskatelevize.py
+@@ -108,7 +108,7 @@ def _real_extract(self, url):
+ 
+         for user_agent in (None, USER_AGENTS['Safari']):
+             req = sanitized_Request(
+-                'http://www.ceskatelevize.cz/ivysilani/ajax/get-client-playlist',
++                'https://www.ceskatelevize.cz/ivysilani/ajax/get-client-playlist',
+                 data=urlencode_postdata(data))
+ 
+             req.add_header('Content-type', 'application/x-www-form-urlencoded')

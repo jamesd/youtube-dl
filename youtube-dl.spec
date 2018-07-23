@@ -13,7 +13,7 @@
 
 Name:           youtube-dl
 Version:        2018.07.21
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -26,6 +26,7 @@ Source1:        https://github.com/rg3/youtube-dl/releases/download/%{version}/y
 # "7D33 D762 FD6C 3513 0481 347F DB4B 54CB A482 6A18" > youtube-dl-gpgkeys.gpg
 Source2:        youtube-dl-gpgkeys.gpg
 Source3:        %{name}.conf
+Patch0:         youtube-dl-2018.07.21-ceskatelevize-https.patch
 %if %{with python3}
 BuildRequires:  python%{python3_pkgversion}-devel
 %else
@@ -45,6 +46,7 @@ Small command-line program to download videos from YouTube and other sites.
 %prep
 gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -qn %{name}
+%patch0 -p1
 
 # remove pre-built file
 rm youtube-dl
@@ -116,6 +118,10 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Mon Jul 23 2018 Matěj Cepl <mcepl@redhat.com> - 2018.07.21-2
+- Add youtube-dl-2018.07.21-ceskatelevize-https.patch to workaround
+  (badly) around https://github.com/rg3/youtube-dl/issues/16307
+
 * Sat Jul 21 2018 Matěj Cepl <mcepl@redhat.com> - 2018.07.21-1
 - Update to the latest release.
 
