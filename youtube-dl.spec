@@ -12,8 +12,8 @@
 %endif
 
 Name:           youtube-dl
-Version:        2018.07.21
-Release:        2%{?dist}
+Version:        2018.08.04
+Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -118,6 +118,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Sat Aug 18 2018 Matěj Cepl <mcepl@suse.com> - 2018.08.04-1
+- Update to the latest release.
+
 * Mon Jul 23 2018 Matěj Cepl <mcepl@redhat.com> - 2018.07.21-2
 - Add youtube-dl-2018.07.21-ceskatelevize-https.patch to workaround
   (badly) around https://github.com/rg3/youtube-dl/issues/16307
