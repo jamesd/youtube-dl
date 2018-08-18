@@ -26,7 +26,6 @@ Source1:        https://github.com/rg3/youtube-dl/releases/download/%{version}/y
 # "7D33 D762 FD6C 3513 0481 347F DB4B 54CB A482 6A18" > youtube-dl-gpgkeys.gpg
 Source2:        youtube-dl-gpgkeys.gpg
 Source3:        %{name}.conf
-Patch0:         youtube-dl-2018.07.21-ceskatelevize-https.patch
 %if %{with python3}
 BuildRequires:  python%{python3_pkgversion}-devel
 %else
@@ -46,7 +45,6 @@ Small command-line program to download videos from YouTube and other sites.
 %prep
 gpgv2 --quiet --keyring %{SOURCE2} %{SOURCE1} %{SOURCE0}
 %setup -qn %{name}
-%patch0 -p1
 
 # remove pre-built file
 rm youtube-dl
