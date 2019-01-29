@@ -12,7 +12,7 @@
 %endif
 
 Name:           youtube-dl
-Version:        2019.01.24
+Version:        2019.01.30
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
@@ -118,6 +118,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Tue Jan 29 2019 Till Maas <opensource@till.name> - 2019.01.30-1
+- Update to 2019.01.30
+
 * Thu Jan 24 2019 Richard Shaw <hobbes1069@gmail.com> - 2019.01.24-1
 - Update to 2019.01.24.
 
