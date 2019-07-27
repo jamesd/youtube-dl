@@ -13,7 +13,7 @@
 
 Name:           youtube-dl
 Version:        2019.06.21
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -118,6 +118,9 @@ install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtub
 
 
 %changelog
+* Sat Jul 27 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2019.06.21-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Sun Jun 23 2019 Till Maas <opensource@till.name> - 2019.06.21-1
 - Update to new upstream release with important bugfixes
 
