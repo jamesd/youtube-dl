@@ -13,7 +13,7 @@
 
 Name:           youtube-dl
 Version:        2020.03.24
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -121,6 +121,9 @@ install -pm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/y
 %{_datadir}/fish/vendor_functions.d/youtube-dl.fish
 
 %changelog
+* Tue May 26 2020 Miro Hrončok <mhroncok@redhat.com> - 2020.03.24-2
+- Rebuilt for Python 3.9
+
 * Mon Apr 13 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2020.03.24-1
 - Update to 2020.03.24
 
