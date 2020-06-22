@@ -12,7 +12,7 @@
 %endif
 
 Name:           youtube-dl
-Version:        2020.06.06
+Version:        2020.06.16
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
