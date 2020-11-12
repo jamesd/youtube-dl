@@ -12,13 +12,13 @@
 %endif
 
 Name:           youtube-dl
-Version:        2020.09.20
+Version:        2020.11.12
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
-Source0:        https://github.com/rg3/youtube-dl/releases/download/%{version}/youtube-dl-%{version}.tar.gz
-Source1:        https://github.com/rg3/youtube-dl/releases/download/%{version}/youtube-dl-%{version}.tar.gz.sig
+Source0:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz
+Source1:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar.gz.sig
 # 2016-06-09:
 # Merged GPG keys from https://rg3.github.io/youtube-dl/download.html in one file
 # gpg --export  --export-options export-minimal "428D F5D6 3EF0 7494 BB45 5AC0 EBF0 1804 BCF0 5F6B" \
@@ -121,6 +121,10 @@ install -pm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/y
 %{_datadir}/fish/vendor_functions.d/youtube-dl.fish
 
 %changelog
+* Thu Nov 12 2020 Peter Hazenberg <fedoraproject@haas-en-berg.nl> - 2020.11.12-1
+- Update to 2020.11.12
+- Get releases from yt-dl.org instead of github
+
 * Sun Sep 20 2020 David Schwörer <davidsch@fedoraproject.org> - 2020.09.20-1
 - Update to 2020.09.20
 
