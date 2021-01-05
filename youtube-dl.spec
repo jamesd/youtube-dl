@@ -12,7 +12,7 @@
 %endif
 
 Name:           youtube-dl
-Version:        2020.12.31
+Version:        2021.01.03
 Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
@@ -121,6 +121,12 @@ install -pm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/y
 %{_datadir}/fish/vendor_functions.d/youtube-dl.fish
 
 %changelog
+* Tue Jan 05 2021 David Schwörer <davidsch@fedoraproject.org> - 2021.01.03-2
+- Update to 2021.01.03
+
+* Sun Jan 03 2021 David Schwörer <davidsch@fedoraproject.org> - 2021.01.03-1
+- Update to 2021.01.03
+
 * Thu Dec 31 2020 David Schwörer <davidsch@fedoraproject.org> - 2020.12.31-1
 - Update to 2020.12.31
 
