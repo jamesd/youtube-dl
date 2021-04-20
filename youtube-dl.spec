@@ -13,7 +13,7 @@
 
 Name:           youtube-dl
 Version:        2021.04.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -40,7 +40,8 @@ Requires:  python2-setuptools
 BuildArch:      noarch
 # For source verification with gpgv
 BuildRequires:  gnupg2
-
+# https://bugzilla.redhat.com/show_bug.cgi?id=1951630
+Recommends:     AtomicParsley
 
 %description
 Small command-line program to download videos from YouTube and other sites.
@@ -121,6 +122,9 @@ install -pm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/y
 %{_datadir}/fish/vendor_functions.d/youtube-dl.fish
 
 %changelog
+* Tue Apr 20 2021 David Schwörer <davidsch@fedoraproject.org> - 2021.04.17-2
+- Recommand AtomicParsley
+
 * Sat Apr 17 2021 David Schwörer <davidsch@fedoraproject.org> - 2021.04.17-1
 - Update to 2021.04.17
 
