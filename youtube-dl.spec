@@ -125,6 +125,9 @@ install -pm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/y
 * Wed Jun 09 2021 David Schwörer <davidsch@fedoraproject.org> - 2021.06.06-1
 - Update to 2021.06.06
 
+* Fri Jun 04 2021 Python Maint <python-maint@redhat.com> - 2021.05.16-2
+- Rebuilt for Python 3.10
+
 * Thu May 20 2021 David Schwörer <davidsch@fedoraproject.org> - 2021.05.16-1
 - Update to 2021.05.16
 
