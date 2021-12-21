@@ -1,19 +1,6 @@
-%if 0%{?rhel} && 0%{?rhel} < 7
-%bcond_with python3
-%else
-%bcond_without python3
-%endif
-
-%if ! %{with python3}
-%{!?__python2: %global __python2 /usr/bin/python2}
-%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-%{!?__python2: %global __python2 /usr/bin/python2}
-%endif
-
 Name:           youtube-dl
-Version:        2021.06.06
-Release:        2%{?dist}
+Version:        2021.12.17
+Release:        1%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -26,15 +13,9 @@ Source1:        https://yt-dl.org/downloads/%{version}/youtube-dl-%{version}.tar
 # "7D33 D762 FD6C 3513 0481 347F DB4B 54CB A482 6A18" > youtube-dl-gpgkeys.gpg
 Source2:        youtube-dl-gpgkeys.gpg
 Source3:        %{name}.conf
-%if %{with python3}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
 Requires:       python%{python3_pkgversion}-setuptools
-%else
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-Requires:  python2-setuptools
-%endif
 # Tests failed because of no connection in Koji.
 # BuildRequires:  python-nose
 BuildArch:      noarch
@@ -64,33 +45,16 @@ sed -i '/README.txt/d' setup.py
 find youtube_dl -type f -exec sed -i -e '1{/^\#!\/usr\/bin\/env python$/d;};' {} +
 
 %build
-%if %{with python3}
 %py3_build
-%else
-%py2_build
-%endif
 
 
 %install
-%if %{with python3}
 %py3_install
-%else
-%py2_install
-%endif
 
-mkdir -p %{buildroot}%{_sysconfdir}
-install -pm644 %{S:3} %{buildroot}%{_sysconfdir}
-%if 0%{?fedora}
-mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
-install -pm644 youtube-dl.bash-completion %{buildroot}%{_datadir}/bash-completion/completions/youtube-dl
-%else
-mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d/
-install -pm644 youtube-dl.bash-completion %{buildroot}%{_sysconfdir}/bash_completion.d/youtube-dl
-%endif
-mkdir -p %{buildroot}%{_datadir}/zsh/site-functions/
-install -pm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtube-dl
-mkdir -p %{buildroot}%{_datadir}/fish/vendor_functions.d
-install -pm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/youtube-dl.fish
+install -Dpm644 %{S:3} -t %{buildroot}%{_sysconfdir}
+install -Dpm644 youtube-dl.bash-completion %{buildroot}%{_datadir}/bash-completion/completions/youtube-dl
+install -Dpm644 youtube-dl.zsh %{buildroot}%{_datadir}/zsh/site-functions/_youtube-dl
+install -Dpm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/youtube-dl.fish
 
 %check
 # This basically cannot work without massive .flake8rc
@@ -102,26 +66,30 @@ install -pm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/y
 
 %files
 %doc AUTHORS ChangeLog README.md
-%if %{with python3}
 %{python3_sitelib}/youtube_dl/
 %{python3_sitelib}/youtube_dl*.egg-info
-%else
-%{python2_sitelib}/youtube_dl/
-%{python2_sitelib}/youtube_dl*.egg-info
-%endif
 %license LICENSE
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %config(noreplace) %{_sysconfdir}/%{name}.conf
-%if 0%{?fedora}
+# Bash completions
+# %%{_datadir}/bash-completion/completions is owned by `filesystem`.
 %{_datadir}/bash-completion/completions/%{name}
-%else
-%{_sysconfdir}/bash_completion.d/%{name}
-%endif
+# Zsh completions
+%dir %{_datadir}/zsh
+%dir %{_datadir}/zsh/site-functions
 %{_datadir}/zsh/site-functions/_youtube-dl
+# Fish completions
+%dir %{_datadir}/fish
+%dir %{_datadir}/fish/vendor_functions.d
 %{_datadir}/fish/vendor_functions.d/youtube-dl.fish
 
 %changelog
+* Tue Dec 21 2021 Maxwell G <gotmax@e.email> - 2021.12.17-1
+- Update to 2021.12.17. Fixes rhbz#2033616.
+- Properly own shell completions directories
+- Remove obsolete epel6 code.
+
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2021.06.06-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
