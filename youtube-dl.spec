@@ -1,6 +1,6 @@
 Name:           youtube-dl
 Version:        2021.12.17
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A small command-line program to download online videos
 License:        Unlicense
 URL:            https://yt-dl.org
@@ -85,6 +85,9 @@ install -Dpm644 youtube-dl.fish %{buildroot}%{_datadir}/fish/vendor_functions.d/
 %{_datadir}/fish/vendor_functions.d/youtube-dl.fish
 
 %changelog
+* Mon Jun 13 2022 Python Maint <python-maint@redhat.com> - 2021.12.17-3
+- Rebuilt for Python 3.11
+
 * Sat Jan 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2021.12.17-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
